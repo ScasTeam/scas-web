@@ -9,19 +9,17 @@ export interface User {
 }
 
 export interface AuthState {
-  token: string | null;
   user: User | null;
-  login: (token: string | null, user: User | null) => void;
+  login: (user: User | null) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      token: null,
       user: null,
-      login: (token, user) => set({ token, user }),
-      logout: () => set({ token: null, user: null }),
+      login: (user) => set({ user }),
+      logout: () => set({ user: null }),
     }),
     {
       name: "scas",

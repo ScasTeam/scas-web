@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export function proxy(request: NextRequest) {
-  const token = request.cookies.get("scas")?.value;
+  const token = request.cookies.get("scas_token")?.value;
   const path = request.nextUrl.pathname;
 
   if (path.startsWith("/dashboard") && !token) {

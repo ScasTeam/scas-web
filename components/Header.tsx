@@ -56,6 +56,9 @@ export default function Header() {
       {isClient && user ? (
         <>
           <div className="flex flex-row gap-4">
+            <nav>
+              <Link href={"/"}>Home</Link>
+            </nav>
             {user.role === "student" &&
               STUDENT_LINKS.map((s, i) => (
                 <nav key={i}>

@@ -28,12 +28,9 @@ export const useGoogleAuth = () => {
       try {
         const res = await api.post<AuthResponse>("/auth/google", {
           google_token: tokenResponse.access_token,
-          client_type: "web",
         });
 
-        loginStore(res.data.token, res.data.user);
-
-        document.cookie = `scas=${res.data.token}; path=/; max-age=86400; SameSite=Lax`;
+        loginStore(res.data.user);
 
         route.push("/dashboard");
       } catch (error: unknown) {
@@ -63,8 +60,7 @@ export const useGoogleAuth = () => {
     try {
       await api.post("/auth/logout");
     } finally {
-      loginStore(null, null);
-      document.cookie = "scas=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      loginStore(null);
       route.push("/login");
     }
   };
