@@ -3,29 +3,23 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const cookieStore = await cookies();
+    const scasToken = cookieStore.get("scas_token")?.value;
 
     const headers = new Headers({
       "Content-Type": "application/json",
       Accept: "application/json",
     });
 
-    const cookieStore = await cookies();
-    const boundDeviceId = cookieStore.get("bound_device_id")?.value;
-
-    if (boundDeviceId) {
-      headers.append("Cookie", `bound_device_id=${boundDeviceId}`);
+    if (scasToken) {
+      headers.append("Authorization", `Bearer ${scasToken}`);
     }
 
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/google`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify({
-          ...body,
-          client_type: "web",
-        }),
       },
     );
 
@@ -33,9 +27,10 @@ export async function POST(request: NextRequest) {
 
     const response = NextResponse.json(data, { status: apiResponse.status });
 
-    const setCookieHeaders = apiResponse.headers.getSetCookie();
-    if (setCookieHeaders && setCookieHeaders.length > 0) {
-      setCookieHeaders.forEach((cookieStr) => {
+    const setHeadersCookie = apiResponse.headers.getSetCookie();
+
+    if (setHeadersCookie && setHeadersCookie.length > 0) {
+      setHeadersCookie.forEach((cookieStr) => {
         response.headers.append("Set-Cookie", cookieStr);
       });
     }

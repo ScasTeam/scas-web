@@ -1,31 +1,18 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const headers = new Headers({
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    });
-
-    const cookieStore = await cookies();
-    const boundDeviceId = cookieStore.get("bound_device_id")?.value;
-
-    if (boundDeviceId) {
-      headers.append("Cookie", `bound_device_id=${boundDeviceId}`);
-    }
-
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/google`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-otp`,
       {
         method: "POST",
-        headers: headers,
-        body: JSON.stringify({
-          ...body,
-          client_type: "web",
-        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(body),
       },
     );
 
@@ -39,7 +26,6 @@ export async function POST(request: NextRequest) {
         response.headers.append("Set-Cookie", cookieStr);
       });
     }
-
     return response;
   } catch (error) {
     return NextResponse.json(
