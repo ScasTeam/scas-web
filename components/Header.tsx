@@ -52,7 +52,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full flex flex-row justify-between items-center px-10 py-6 mix-blend-difference">
+    <header className="fixed top-0 left-0 z-50 w-full flex flex-row justify-between items-center px-6 md:px-10 py-6 mix-blend-difference">
       {isClient && user ? (
         <>
           <div className="flex flex-row gap-8 items-center">

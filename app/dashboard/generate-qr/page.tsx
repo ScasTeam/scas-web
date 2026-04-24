@@ -103,12 +103,13 @@ export default function Page() {
              <div className="h-1 w-12 bg-white/20 rounded-full"></div>
           </div>
 
-          <div className="relative bg-white p-8 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.1)] transition-transform duration-500 hover:scale-[1.02]">
+          <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.1)] transition-transform duration-500 hover:scale-[1.02]">
             {activeQr ? (
               <div className={`transition-opacity duration-300 ${isFetching ? "opacity-40" : "opacity-100"}`}>
                 <QRCodeSVG
                   value={activeQr}
-                  size={260}
+                  size={200}
+                  className="w-[200px] h-[200px] md:w-[260px] md:h-[260px]"
                   bgColor="#FFFFFF"
                   fgColor="#000000"
                   level="H"
@@ -116,11 +117,11 @@ export default function Page() {
                 />
               </div>
             ) : (
-              <div className="w-[260px] h-[260px] flex flex-col items-center justify-center text-black/40 font-abel uppercase tracking-widest text-center">
-                <p className="mb-4">Session Expired</p>
+              <div className="w-[200px] h-[200px] md:w-[260px] md:h-[260px] flex flex-col items-center justify-center text-black/40 font-abel uppercase tracking-widest text-center px-4">
+                <p className="mb-4 text-xs md:text-sm">Session Expired</p>
                 <button 
                   onClick={() => fetchQrBatch()}
-                  className="bg-black text-white px-6 py-3 rounded-full text-xs hover:scale-105 transition-transform"
+                  className="bg-black text-white px-6 py-3 rounded-full text-[10px] md:text-xs hover:scale-105 transition-transform"
                 >
                   Regenerate
                 </button>
