@@ -52,7 +52,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full flex flex-row justify-between items-center px-10 py-6 mix-blend-difference">
+    <header className="fixed top-0 left-0 z-50 w-full flex flex-row justify-between items-center px-6 md:px-10 py-6 mix-blend-difference">
       {isClient && user ? (
         <>
           <div className="flex flex-row gap-8 items-center">
@@ -62,15 +62,27 @@ export default function Header() {
             <div className="flex gap-6 font-abel uppercase text-xs tracking-widest opacity-70">
               {user.role === "student" &&
                 STUDENT_LINKS.map((s, i) => (
-                  <Link key={i} href={s.url} className="hover:opacity-100 transition-opacity">{s.name}</Link>
+                  <Link
+                    key={i}
+                    href={s.url}
+                    className="hover:opacity-100 transition-opacity"
+                  >
+                    {s.name}
+                  </Link>
                 ))}
-              {user.role === "student" && //TODO: di production student ganti ke 'lecturer'
+              {user.role === "lecturer" &&
                 LECTURER_LINKS.map((l, i) => (
-                  <Link key={i} href={l.url} className="hover:opacity-100 transition-opacity">{l.name}</Link>
+                  <Link
+                    key={i}
+                    href={l.url}
+                    className="hover:opacity-100 transition-opacity"
+                  >
+                    {l.name}
+                  </Link>
                 ))}
             </div>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <div className="flex flex-col items-end font-abel uppercase text-[10px] tracking-widest opacity-50">
               <p>{user.name}</p>
@@ -89,7 +101,7 @@ export default function Header() {
           <nav className="font-days text-xl tracking-tighter">
             <Link href={"/"}>SCAS.</Link>
           </nav>
-          <button 
+          <button
             onClick={() => handleLogin()}
             className="font-abel uppercase text-xs tracking-widest border border-white/20 px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all"
           >
