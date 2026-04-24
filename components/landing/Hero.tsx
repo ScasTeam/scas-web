@@ -1,0 +1,40 @@
+import Link from "next/link";
+
+export default function Hero() {
+  return (
+    <section className="relative flex min-h-screen w-full flex-col items-center justify-center px-6 pt-20 text-center">
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 blur-3xl">
+        <div className="h-96 w-96 rounded-full bg-white/20"></div>
+      </div>
+
+      <h1 className="z-10 font-days text-7xl md:text-[12rem] leading-none tracking-tighter uppercase mb-4">
+        SCAS
+      </h1>
+      <p className="z-10 max-w-2xl font-abel text-xl md:text-2xl tracking-wide opacity-80 uppercase">
+        Smart Campus Attendance System <br />
+        <span className="text-sm opacity-50">Efficiency in every scan.</span>
+      </p>
+
+      <div className="z-10 mt-12 flex flex-col items-center gap-8">
+        <Link
+          href="/login"
+          className="group relative overflow-hidden rounded-full border border-white/20 px-12 py-4 font-abel text-lg uppercase transition-all hover:bg-white hover:text-black"
+        >
+          <span className="relative z-10">Get Started</span>
+        </Link>
+
+        <div className="flex items-center gap-4 text-xs font-abel uppercase tracking-[0.2em] opacity-40">
+          <span>Scan</span>
+          <div className="h-px w-8 bg-white/20"></div>
+          <span>Verify</span>
+          <div className="h-px w-8 bg-white/20"></div>
+          <span>Done</span>
+        </div>
+      </div>
+
+      <div className="absolute bottom-10 left-10 text-[10px] font-abel uppercase tracking-widest opacity-30 [writing-mode:vertical-lr]">
+        Scroll to explore
+      </div>
+    </section>
+  );
+}
