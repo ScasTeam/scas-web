@@ -4,8 +4,9 @@ import { useState, useEffect, useSyncExternalStore } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import api from "@/lib/axios";
 import { useAuthStore } from "@/store/useAuthStore";
+import RoleGuard from "@/components/guards/RoleGuard";
 
-export default function LecturerScannerPage() {
+function VerifyQrContent() {
   const user = useAuthStore((state) => state.user);
   const [status, setStatus] = useState<
     "idle" | "scanning" | "verifying" | "success" | "error"
@@ -30,7 +31,7 @@ export default function LecturerScannerPage() {
       {
         fps: 10,
         qrbox: { width: 250, height: 250 },
-        supportedScanTypes: [0], // QR only
+        supportedScanTypes: [0],
       },
       false,
     );
@@ -65,9 +66,7 @@ export default function LecturerScannerPage() {
       }
     };
 
-    const onScanFailure = (error: unknown) => {
-      // TODO: handle nanti
-    };
+    const onScanFailure = (error: unknown) => {};
 
     scanner.render(onScanSuccess, onScanFailure);
 
@@ -207,5 +206,13 @@ export default function LecturerScannerPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function Page() {
+  return (
+    <RoleGuard role="lecturer">
+      <VerifyQrContent />
+    </RoleGuard>
   );
 }
