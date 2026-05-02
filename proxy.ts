@@ -9,7 +9,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (path.startsWith("/login") && token) {
+  if ((path.startsWith("/login") || path.startsWith("/register")) && token) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -18,5 +18,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/dashboard"],
+  matcher: ["/", "/login", "/register/:path*", "/dashboard/:path*"],
 };

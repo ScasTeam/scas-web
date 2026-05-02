@@ -2,33 +2,49 @@
 
 import Link from "next/link";
 
-interface LoginFormProps {
-  onLogin: () => void;
+interface RegisterLecturerFormProps {
+  onRegister: () => void;
   isLoading: boolean;
+  error: string;
 }
 
-export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
+export default function RegisterLecturerForm({
+  onRegister,
+  isLoading,
+  error,
+}: RegisterLecturerFormProps) {
   return (
     <div className="z-10 w-full max-w-md flex flex-col items-center">
       <header className="text-center mb-16">
+        <span className="font-days text-sm uppercase text-white/40 tracking-[0.3em] mb-4 block">
+          Lecturer Access
+        </span>
         <h1 className="font-days text-5xl md:text-7xl uppercase tracking-tighter leading-none mb-8">
-          SCAS <br /> Portal.
+          Register.
         </h1>
         <p className="font-abel text-lg opacity-60 uppercase tracking-[0.2em] max-w-xs mx-auto">
-          Identify yourself to continue.
+          Create your lecturer account to get started.
         </p>
       </header>
 
       <div className="relative group w-full">
         <div className="absolute -inset-4 border border-white/5 rounded-[2rem] pointer-events-none transition-all duration-700 group-hover:border-white/10"></div>
 
+        {error && (
+          <div className="mb-6 w-full">
+            <p className="font-abel text-xs uppercase tracking-widest text-red-400 bg-red-400/10 px-4 py-3 rounded-xl border border-red-400/20 text-center">
+              {error}
+            </p>
+          </div>
+        )}
+
         <button
-          onClick={onLogin}
+          onClick={onRegister}
           disabled={isLoading}
           className="relative w-full bg-white text-black font-days text-xs uppercase tracking-[0.2em] py-6 rounded-full flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_50px_rgba(255,255,255,0.05)] disabled:opacity-50"
         >
           {isLoading ? (
-            <span className="animate-pulse">Authorizing...</span>
+            <span className="animate-pulse">Creating Account...</span>
           ) : (
             <>
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -49,7 +65,7 @@ export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 />
               </svg>
-              Login with Google SSO
+              Register with Google
             </>
           )}
         </button>
@@ -57,10 +73,10 @@ export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
 
       <footer className="mt-12 flex flex-col items-center gap-4">
         <Link
-          href="/register/lecturer"
+          href="/login"
           className="font-abel text-[10px] uppercase tracking-[0.3em] opacity-30 hover:opacity-100 transition-opacity"
         >
-          Lecturer? Register here
+          Already have an account? Login
         </Link>
       </footer>
     </div>

@@ -3,7 +3,6 @@ import { Days_One } from "next/font/google";
 import { Abel } from "next/font/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./globals.css";
-import Header from "@/components/Header";
 
 const abelSerif = Abel({
   style: "normal",
@@ -36,7 +35,6 @@ export default function RootLayout({
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
         >
-          <Header />
           {children}
         </GoogleOAuthProvider>
       </body>

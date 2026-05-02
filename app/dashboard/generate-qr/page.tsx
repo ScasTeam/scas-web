@@ -4,6 +4,7 @@ import api from "@/lib/axios";
 import { useAuthStore, type User } from "@/store/useAuthStore";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import RoleGuard from "@/components/guards/RoleGuard";
 
 interface QRBatch {
   data: {
@@ -11,7 +12,7 @@ interface QRBatch {
   };
 }
 
-export default function Page() {
+function GenerateQrContent() {
   const user: User | null = useAuthStore((state) => state.user);
   const qrBuffer = useRef<string[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -78,7 +79,6 @@ export default function Page() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground px-6 py-24 selection:bg-white selection:text-black overflow-hidden">
-      {/* Background Decor */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 blur-[120px] pointer-events-none">
         <div className="h-[600px] w-[600px] rounded-full bg-white"></div>
       </div>
@@ -97,7 +97,6 @@ export default function Page() {
         </header>
 
         <div className="relative group">
-          {/* Scanner UI frame */}
           <div className="absolute -inset-4 border border-white/10 rounded-[2rem] pointer-events-none transition-all duration-700 group-hover:border-white/30"></div>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full pb-4">
              <div className="h-1 w-12 bg-white/20 rounded-full"></div>
@@ -129,7 +128,6 @@ export default function Page() {
             )}
           </div>
 
-          {/* Countdown / Status */}
           <div className="mt-12 flex flex-col items-center gap-4">
              <div className="flex items-center gap-4">
                 <div className="font-days text-4xl tabular-nums">
@@ -141,7 +139,6 @@ export default function Page() {
                 </div>
              </div>
              
-             {/* Simple progress bar */}
              <div className="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-white transition-all duration-1000 ease-linear"
@@ -165,5 +162,13 @@ export default function Page() {
         </footer>
       </div>
     </main>
+  );
+}
+
+export default function Page() {
+  return (
+    <RoleGuard role="student">
+      <GenerateQrContent />
+    </RoleGuard>
   );
 }
