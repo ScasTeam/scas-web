@@ -22,6 +22,8 @@ export interface CourseState {
   courses: Course[];
   lastFetched: number | null;
   setCourses: (courses: Course[]) => void;
+  updateCourse: (updated: Course) => void;
+  removeCourse: (courseId: string) => void;
   clear: () => void;
 }
 
@@ -31,6 +33,18 @@ export const useCourseStore = create<CourseState>()(
       courses: [],
       lastFetched: null,
       setCourses: (courses) => set({ courses, lastFetched: Date.now() }),
+      updateCourse: (updated) =>
+        set((state) => ({
+          courses: state.courses.map((c) =>
+            c.id === updated.id ? updated : c,
+          ),
+          lastFetched: Date.now(),
+        })),
+      removeCourse: (courseId) =>
+        set((state) => ({
+          courses: state.courses.filter((c) => c.id !== courseId),
+          lastFetched: Date.now(),
+        })),
       clear: () => set({ courses: [], lastFetched: null }),
     }),
     {

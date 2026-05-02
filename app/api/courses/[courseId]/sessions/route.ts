@@ -1,13 +1,16 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ courseId: string }> },
+) {
   try {
+    const { courseId } = await params;
     const cookieStore = await cookies();
     const scasToken = cookieStore.get("scas_token")?.value;
 
     const headers = new Headers({
-      "Content-Type": "application/json",
       Accept: "application/json",
     });
 
@@ -16,15 +19,11 @@ export async function GET(request: NextRequest) {
     }
 
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/courses`,
-      {
-        method: "GET",
-        headers: headers,
-      },
+      `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/sessions`,
+      { method: "GET", headers },
     );
 
     const data = await apiResponse.json();
-
     return NextResponse.json(data, { status: apiResponse.status });
   } catch (error) {
     return NextResponse.json(
@@ -34,8 +33,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ courseId: string }> },
+) {
   try {
+    const { courseId } = await params;
     const body = await request.json();
     const cookieStore = await cookies();
     const scasToken = cookieStore.get("scas_token")?.value;
@@ -50,16 +53,11 @@ export async function POST(request: NextRequest) {
     }
 
     const apiResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/courses`,
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
-      },
+      `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/sessions`,
+      { method: "POST", headers, body: JSON.stringify(body) },
     );
 
     const data = await apiResponse.json();
-
     return NextResponse.json(data, { status: apiResponse.status });
   } catch (error) {
     return NextResponse.json(
