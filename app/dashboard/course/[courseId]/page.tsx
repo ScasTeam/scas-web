@@ -28,7 +28,7 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isLecturer = user?.role === "lecturer";
 
-  const handleCreate = async (data: { title: string; description: string; mode?: string }) => {
+  const handleCreate = async (data: { title: string; description: string; mode?: string; opened_at: string; closed_at: string }) => {
     const success = await createSession(data);
     if (success) {
       setIsModalOpen(false);

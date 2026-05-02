@@ -1,14 +1,22 @@
 "use client";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import type { Session } from "@/hooks/useCourseSessions";
 
+dayjs.extend(utc);
+
 const STATUS_STYLES: Record<string, string> = {
-  draft: "border-white/20 text-white/40",
-  active: "border-green-400/30 text-green-400",
+  open: "border-green-400/30 text-green-400",
   closed: "border-red-400/30 text-red-400",
 };
 
 function SessionCard({ session }: { session: Session }) {
+  const formatTime = (dateStr: string | null) => {
+    if (!dateStr) return "N/A";
+    return dayjs.utc(dateStr).local().format("MMM D, h:mm A");
+  };
+
   return (
     <div className="group border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-500 bg-white/[0.02] hover:bg-white/[0.04]">
       <div className="flex items-start justify-between mb-3">
@@ -17,7 +25,7 @@ function SessionCard({ session }: { session: Session }) {
         </h3>
         <div className="flex items-center gap-2">
           <span
-            className={`font-days text-[8px] uppercase tracking-widest px-2.5 py-1 rounded-full border ${STATUS_STYLES[session.status] || STATUS_STYLES.draft}`}
+            className={`font-days text-[8px] uppercase tracking-widest px-2.5 py-1 rounded-full border ${STATUS_STYLES[session.status] || "border-white/20 text-white/40"}`}
           >
             {session.status}
           </span>
@@ -33,11 +41,25 @@ function SessionCard({ session }: { session: Session }) {
         </p>
       )}
 
-      <div className="flex items-center gap-1.5">
-        <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-        <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
-          {session.attendance_logs_count ?? 0} attendance records
-        </span>
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex items-center gap-1.5">
+          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
+            {session.attendance_logs_count ?? 0} records
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
+            Open: {formatTime(session.opened_at)}
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
+            Close: {formatTime(session.closed_at)}
+          </span>
+        </div>
       </div>
     </div>
   );
