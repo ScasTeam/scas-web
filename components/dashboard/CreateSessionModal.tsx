@@ -177,13 +177,17 @@ export default function CreateSessionModal({
                     value={openedDate}
                     onChange={setOpenedDate}
                     minDate={dayjs()}
-                    slotProps={{ textField: { fullWidth: true, required: true } }}
+                    slotProps={{
+                      textField: { fullWidth: true, required: true },
+                    }}
                   />
                   <TimePicker
                     label="Time"
                     value={openedTime}
                     onChange={setOpenedTime}
-                    slotProps={{ textField: { fullWidth: true, required: true } }}
+                    slotProps={{
+                      textField: { fullWidth: true, required: true },
+                    }}
                   />
                 </div>
               </div>
@@ -198,13 +202,17 @@ export default function CreateSessionModal({
                     value={closedDate}
                     onChange={setClosedDate}
                     minDate={openedDate ?? dayjs()}
-                    slotProps={{ textField: { fullWidth: true, required: true } }}
+                    slotProps={{
+                      textField: { fullWidth: true, required: true },
+                    }}
                   />
                   <TimePicker
                     label="Time"
                     value={closedTime}
                     onChange={setClosedTime}
-                    slotProps={{ textField: { fullWidth: true, required: true } }}
+                    slotProps={{
+                      textField: { fullWidth: true, required: true },
+                    }}
                   />
                 </div>
               </div>
