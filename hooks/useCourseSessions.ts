@@ -7,7 +7,6 @@ export interface Session {
   title: string;
   description: string | null;
   mode: string;
-  status: string;
   online_pin: string | null;
   opened_at: string | null;
   closed_at: string | null;

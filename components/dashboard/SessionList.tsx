@@ -7,15 +7,32 @@ import type { Session } from "@/hooks/useCourseSessions";
 dayjs.extend(utc);
 
 const STATUS_STYLES: Record<string, string> = {
+  scheduled: "border-amber-400/30 text-amber-400",
   open: "border-green-400/30 text-green-400",
   closed: "border-red-400/30 text-red-400",
 };
+
+function getStatus(openedAt: string | null, closedAt: string | null): string {
+  const now = dayjs.utc();
+
+  if (openedAt && now.isBefore(dayjs.utc(openedAt))) {
+    return "scheduled";
+  }
+
+  if (closedAt && now.isAfter(dayjs.utc(closedAt))) {
+    return "closed";
+  }
+
+  return "open";
+}
 
 function SessionCard({ session }: { session: Session }) {
   const formatTime = (dateStr: string | null) => {
     if (!dateStr) return "N/A";
     return dayjs.utc(dateStr).local().format("MMM D, h:mm A");
   };
+
+  const status = getStatus(session.opened_at, session.closed_at);
 
   return (
     <div className="group border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-500 bg-white/[0.02] hover:bg-white/[0.04]">
@@ -25,9 +42,9 @@ function SessionCard({ session }: { session: Session }) {
         </h3>
         <div className="flex items-center gap-2">
           <span
-            className={`font-days text-[8px] uppercase tracking-widest px-2.5 py-1 rounded-full border ${STATUS_STYLES[session.status] || "border-white/20 text-white/40"}`}
+            className={`font-days text-[8px] uppercase tracking-widest px-2.5 py-1 rounded-full border ${STATUS_STYLES[status]}`}
           >
-            {session.status}
+            {status}
           </span>
           <span className="font-abel text-[9px] uppercase tracking-widest text-white/20 bg-white/5 px-2.5 py-1 rounded-full">
             {session.mode}

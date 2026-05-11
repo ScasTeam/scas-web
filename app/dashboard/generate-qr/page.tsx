@@ -29,6 +29,7 @@ function GenerateQrContent() {
 
     try {
       const res: QRBatch = await api.post("/attendance/generate-qr");
+      console.log(res.data);
       qrBuffer.current = res.data.qr_batch;
       setActiveQr(qrBuffer.current.shift());
       setCurrentBufferCount(qrBuffer.current.length);
@@ -99,12 +100,14 @@ function GenerateQrContent() {
         <div className="relative group">
           <div className="absolute -inset-4 border border-white/10 rounded-[2rem] pointer-events-none transition-all duration-700 group-hover:border-white/30"></div>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full pb-4">
-             <div className="h-1 w-12 bg-white/20 rounded-full"></div>
+            <div className="h-1 w-12 bg-white/20 rounded-full"></div>
           </div>
 
           <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.1)] transition-transform duration-500 hover:scale-[1.02]">
             {activeQr ? (
-              <div className={`transition-opacity duration-300 ${isFetching ? "opacity-40" : "opacity-100"}`}>
+              <div
+                className={`transition-opacity duration-300 ${isFetching ? "opacity-40" : "opacity-100"}`}
+              >
                 <QRCodeSVG
                   value={activeQr}
                   size={200}
@@ -118,7 +121,7 @@ function GenerateQrContent() {
             ) : (
               <div className="w-[200px] h-[200px] md:w-[260px] md:h-[260px] flex flex-col items-center justify-center text-black/40 font-abel uppercase tracking-widest text-center px-4">
                 <p className="mb-4 text-xs md:text-sm">Session Expired</p>
-                <button 
+                <button
                   onClick={() => fetchQrBatch()}
                   className="bg-black text-white px-6 py-3 rounded-full text-[10px] md:text-xs hover:scale-105 transition-transform"
                 >
@@ -129,36 +132,36 @@ function GenerateQrContent() {
           </div>
 
           <div className="mt-12 flex flex-col items-center gap-4">
-             <div className="flex items-center gap-4">
-                <div className="font-days text-4xl tabular-nums">
-                  {timeLeft.toString().padStart(2, '0')}
-                </div>
-                <div className="h-8 w-px bg-white/20"></div>
-                <div className="font-abel text-xs uppercase tracking-[0.2em] opacity-40">
-                  Seconds <br /> Remaining
-                </div>
-             </div>
-             
-             <div className="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-white transition-all duration-1000 ease-linear"
-                  style={{ width: `${(timeLeft / 10) * 100}%` }}
-                ></div>
-             </div>
+            <div className="flex items-center gap-4">
+              <div className="font-days text-4xl tabular-nums">
+                {timeLeft.toString().padStart(2, "0")}
+              </div>
+              <div className="h-8 w-px bg-white/20"></div>
+              <div className="font-abel text-xs uppercase tracking-[0.2em] opacity-40">
+                Seconds <br /> Remaining
+              </div>
+            </div>
+
+            <div className="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-white transition-all duration-1000 ease-linear"
+                style={{ width: `${(timeLeft / 10) * 100}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
         <footer className="mt-24 flex flex-col items-center gap-6 opacity-30 group">
-           <div className="flex gap-4 items-center font-abel text-[10px] uppercase tracking-widest">
-              <span>Secure Batch</span>
-              <span className="w-1 h-1 bg-white rounded-full"></span>
-              <span>{currentBufferCount} codes left</span>
-           </div>
-           {isFetching && (
-              <span className="font-abel text-[10px] uppercase animate-pulse">
-                Updating secure buffer...
-              </span>
-           )}
+          <div className="flex gap-4 items-center font-abel text-[10px] uppercase tracking-widest">
+            <span>Secure Batch</span>
+            <span className="w-1 h-1 bg-white rounded-full"></span>
+            <span>{currentBufferCount} codes left</span>
+          </div>
+          {isFetching && (
+            <span className="font-abel text-[10px] uppercase animate-pulse">
+              Updating secure buffer...
+            </span>
+          )}
         </footer>
       </div>
     </main>
