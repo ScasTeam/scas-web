@@ -6,6 +6,8 @@ export interface Course {
   code: string;
   course_name: string;
   description: string | null;
+  registration_code: string;
+  allowed_email_domain: string | null;
   lecturer_id: string;
   students_count?: number;
   sessions_count?: number;
@@ -22,6 +24,7 @@ export interface CourseState {
   courses: Course[];
   lastFetched: number | null;
   setCourses: (courses: Course[]) => void;
+  addCourse: (course: Course) => void;
   updateCourse: (updated: Course) => void;
   removeCourse: (courseId: string) => void;
   clear: () => void;
@@ -33,6 +36,11 @@ export const useCourseStore = create<CourseState>()(
       courses: [],
       lastFetched: null,
       setCourses: (courses) => set({ courses, lastFetched: Date.now() }),
+      addCourse: (course) =>
+        set((state) => ({
+          courses: [course, ...state.courses],
+          lastFetched: Date.now(),
+        })),
       updateCourse: (updated) =>
         set((state) => ({
           courses: state.courses.map((c) =>

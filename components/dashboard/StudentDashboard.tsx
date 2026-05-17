@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useCourses } from "@/hooks/useCourses";
+import { useEnrollment } from "@/hooks/useEnrollment";
 import type { Course } from "@/store/useCourseStore";
+import EnrollCourseModal from "@/components/dashboard/EnrollCourseModal";
 
 function CourseCard({ course }: { course: Course }) {
   return (
@@ -43,7 +46,7 @@ function CourseCard({ course }: { course: Course }) {
   );
 }
 
-function EmptyState() {
+function EmptyState({ onJoin }: { onJoin: () => void }) {
   return (
     <div className="border border-dashed border-white/10 rounded-2xl p-12 flex flex-col items-center text-center">
       <div className="w-16 h-16 border border-white/10 rounded-full flex items-center justify-center mb-6">
@@ -52,15 +55,38 @@ function EmptyState() {
       <p className="font-days text-lg uppercase tracking-tight mb-2">
         No Courses Yet
       </p>
-      <p className="font-abel text-xs uppercase tracking-widest text-white/30">
-        You are not enrolled in any courses
+      <p className="font-abel text-xs uppercase tracking-widest text-white/30 mb-6">
+        Join a course using a registration code from your lecturer
       </p>
+      <button
+        onClick={onJoin}
+        className="bg-white text-black font-days text-xs uppercase tracking-widest px-8 py-3 rounded-full hover:scale-[1.02] active:scale-95 transition-all"
+      >
+        Join Course
+      </button>
     </div>
   );
 }
 
 export default function StudentDashboard() {
   const { courses, isLoading, refetch } = useCourses();
+  const {
+    joinCourse,
+    isLoading: isJoining,
+    error: joinError,
+    setError: setJoinError,
+  } = useEnrollment();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleJoin = async (code: string): Promise<boolean> => {
+    const success = await joinCourse(code);
+    return success;
+  };
+
+  const handleOpenModal = () => {
+    setJoinError("");
+    setIsModalOpen(true);
+  };
 
   return (
     <>
@@ -83,17 +109,25 @@ export default function StudentDashboard() {
               <div className="w-3 h-3 border border-white/20 border-t-white rounded-full animate-spin"></div>
             )}
           </div>
-          <button
-            onClick={refetch}
-            disabled={isLoading}
-            className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors disabled:opacity-30"
-          >
-            Refresh
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={refetch}
+              disabled={isLoading}
+              className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors disabled:opacity-30"
+            >
+              Refresh
+            </button>
+            <button
+              onClick={handleOpenModal}
+              className="font-days text-[10px] uppercase tracking-widest bg-white text-black px-5 py-2 rounded-full hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              + Join Course
+            </button>
+          </div>
         </div>
 
         {courses.length === 0 && !isLoading ? (
-          <EmptyState />
+          <EmptyState onJoin={handleOpenModal} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {courses.map((course) => (
@@ -102,6 +136,14 @@ export default function StudentDashboard() {
           </div>
         )}
       </section>
+
+      <EnrollCourseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleJoin}
+        isLoading={isJoining}
+        error={joinError}
+      />
     </>
   );
 }
