@@ -7,6 +7,16 @@ import type { Course } from "@/store/useCourseStore";
 import CreateCourseModal from "@/components/dashboard/CreateCourseModal";
 
 function CourseCard({ course }: { course: Course }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyCode = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(course.registration_code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <Link href={`/dashboard/course/${course.id}`}>
       <div className="group relative border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-500 bg-white/[0.02] hover:bg-white/[0.04] cursor-pointer">
@@ -35,10 +45,27 @@ function CourseCard({ course }: { course: Course }) {
         </h3>
 
         {course.description && (
-          <p className="font-abel text-sm text-white/40 leading-relaxed line-clamp-2">
+          <p className="font-abel text-sm text-white/40 leading-relaxed line-clamp-2 mb-3">
             {course.description}
           </p>
         )}
+
+        <div className="flex items-center justify-between pt-3 border-t border-white/5">
+          <div className="flex items-center gap-2">
+            <span className="font-abel text-[9px] uppercase tracking-widest text-white/20">
+              Invite Code:
+            </span>
+            <span className="font-days text-xs tracking-widest text-white/50">
+              {course.registration_code}
+            </span>
+          </div>
+          <button
+            onClick={handleCopyCode}
+            className="font-abel text-[9px] uppercase tracking-widest text-white/25 hover:text-white/60 transition-colors px-2 py-1 rounded-lg hover:bg-white/5"
+          >
+            {copied ? "Copied!" : "Copy"}
+          </button>
+        </div>
       </div>
     </Link>
   );
@@ -70,7 +97,7 @@ export default function LecturerDashboard() {
   const { courses, isLoading, refetch, createCourse, isCreating, createError, setCreateError } = useCourses();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleCreate = async (data: { code: string; course_name: string; description: string }) => {
+  const handleCreate = async (data: { code: string; course_name: string; description: string; allowed_email_domain?: string }) => {
     const success = await createCourse(data);
     if (success) {
       setIsModalOpen(false);

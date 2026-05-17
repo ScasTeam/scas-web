@@ -6,7 +6,7 @@ import Modal from "@/components/ui/Modal";
 interface CreateCourseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: { code: string; course_name: string; description: string }) => Promise<void>;
+  onSubmit: (data: { code: string; course_name: string; description: string; allowed_email_domain?: string }) => Promise<void>;
   isLoading: boolean;
   error: string;
 }
@@ -21,13 +21,20 @@ export default function CreateCourseModal({
   const [code, setCode] = useState("");
   const [courseName, setCourseName] = useState("");
   const [description, setDescription] = useState("");
+  const [allowedDomain, setAllowedDomain] = useState("");
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await onSubmit({ code, course_name: courseName, description });
+    await onSubmit({
+      code,
+      course_name: courseName,
+      description,
+      ...(allowedDomain.trim() ? { allowed_email_domain: allowedDomain.trim() } : {}),
+    });
     setCode("");
     setCourseName("");
     setDescription("");
+    setAllowedDomain("");
   };
 
   return (
@@ -86,6 +93,27 @@ export default function CreateCourseModal({
               rows={3}
               className="w-full bg-white/5 border border-white/10 px-4 py-3 rounded-xl font-abel text-sm focus:outline-none focus:border-white/30 transition-all placeholder:text-white/15 text-white resize-none"
             />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="font-abel text-[10px] uppercase tracking-widest text-white/40">
+              Allowed Email Domain
+              <span className="text-white/20 ml-2">Optional</span>
+            </label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 font-abel text-sm text-white/20">@</span>
+              <input
+                type="text"
+                value={allowedDomain}
+                onChange={(e) => setAllowedDomain(e.target.value.toLowerCase().replace(/^@/, ''))}
+                placeholder="student.uns.ac.id"
+                maxLength={255}
+                className="w-full bg-white/5 border border-white/10 pl-8 pr-4 py-3 rounded-xl font-abel text-sm focus:outline-none focus:border-white/30 transition-all placeholder:text-white/15 text-white"
+              />
+            </div>
+            <span className="font-abel text-[9px] text-white/20">
+              Leave empty to allow any email. Set to restrict enrollment to a specific domain.
+            </span>
           </div>
 
           {error && (
