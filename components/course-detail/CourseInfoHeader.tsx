@@ -48,7 +48,6 @@ export default function CourseInfoHeader({
           {course.code}
         </span>
 
-        {/* Student: Leave Course */}
         {!isLecturer && (
           <div className="relative">
             {!showLeaveConfirm ? (
@@ -92,7 +91,6 @@ export default function CourseInfoHeader({
         </p>
       )}
 
-      {/* Lecturer: Registration Code + Regenerate */}
       {isLecturer && (
         <div className="flex items-center gap-4 pt-4 border-t border-white/5">
           <div className="flex items-center gap-2">
@@ -131,8 +129,14 @@ export default function CourseInfoHeader({
 
       <style jsx>{`
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-4px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(-4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </header>

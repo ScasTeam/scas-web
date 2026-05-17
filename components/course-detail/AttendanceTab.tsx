@@ -16,7 +16,6 @@ interface AttendanceTabProps {
   isLecturer: boolean;
 }
 
-// --- Types for student view ---
 interface MySessionAttendance {
   session_id: string;
   session_title: string;
@@ -34,10 +33,6 @@ interface MyAttendanceStats {
   missed: number;
   rate: number;
 }
-
-// ============================================================
-// STUDENT VIEW
-// ============================================================
 
 function StudentAttendanceView({ courseId }: { courseId: string }) {
   const [attendance, setAttendance] = useState<MySessionAttendance[]>([]);
@@ -101,7 +96,6 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
 
   return (
     <div>
-      {/* Stats bar */}
       {stats && (
         <div className="flex items-center gap-6 mb-6 pb-6 border-b border-white/5">
           <div>
@@ -127,7 +121,6 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
         </div>
       )}
 
-      {/* Per-session attendance list */}
       <div className="flex flex-col gap-2">
         {attendance.map((item) => (
           <div
@@ -182,10 +175,6 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
     </div>
   );
 }
-
-// ============================================================
-// LECTURER VIEW (existing accordion pattern)
-// ============================================================
 
 function AttendeeRow({ log }: { log: AttendeeLog }) {
   const statusStyles: Record<string, string> = {
@@ -349,7 +338,6 @@ function LecturerAttendanceView({
 
   return (
     <div>
-      {/* Stats bar */}
       <div className="flex items-center gap-6 mb-6 pb-6 border-b border-white/5">
         <div>
           <span className="font-days text-2xl">{totalSessions}</span>
@@ -366,7 +354,6 @@ function LecturerAttendanceView({
         </div>
       </div>
 
-      {/* Session accordions */}
       <div className="flex flex-col gap-2">
         {sessions.map((session) => (
           <SessionAccordion
@@ -379,10 +366,6 @@ function LecturerAttendanceView({
     </div>
   );
 }
-
-// ============================================================
-// MAIN EXPORT — switches view based on role
-// ============================================================
 
 export default function AttendanceTab({
   sessions,

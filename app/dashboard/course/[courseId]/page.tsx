@@ -36,7 +36,6 @@ export default function Page() {
 
   const isLecturer = user?.role === "lecturer";
 
-  // Only lecturers can see enrolled students
   const {
     students,
     isLoading: isLoadingStudents,
@@ -44,7 +43,6 @@ export default function Page() {
     kickStudent,
   } = useCourseStudents(isLecturer ? courseId : "");
 
-  // Student leave course
   const { leaveCourse, isLoading: isLeaving } = useEnrollment();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,7 +73,6 @@ export default function Page() {
     }
   };
 
-  // Build tabs based on role
   const tabs = [
     { id: "sessions", label: "Sessions", count: sessions.length },
     ...(isLecturer
@@ -114,7 +111,6 @@ export default function Page() {
                 onTabChange={setActiveTab}
               />
 
-              {/* Sessions Tab */}
               {activeTab === "sessions" && (
                 <section className="w-full">
                   <div className="flex items-center justify-between mb-6">
@@ -149,7 +145,6 @@ export default function Page() {
                 </section>
               )}
 
-              {/* Students Tab (Lecturer only) */}
               {activeTab === "students" && isLecturer && (
                 <StudentsTab
                   students={students}
@@ -158,7 +153,6 @@ export default function Page() {
                 />
               )}
 
-              {/* Attendance Tab */}
               {activeTab === "attendance" && (
                 <AttendanceTab
                   sessions={sessions}
