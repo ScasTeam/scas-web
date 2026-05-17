@@ -1,5 +1,6 @@
 import api from "@/lib/axios";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useCourseStore } from "@/store/useCourseStore";
 import { useRouter } from "next/navigation";
 import { useState, SyntheticEvent } from "react";
 import { useGoogleLogin, type TokenResponse } from "@react-oauth/google";
@@ -24,6 +25,8 @@ export const useGoogleAuth = () => {
   const [otpError, setOtpError] = useState("");
   const route = useRouter();
   const loginStore = useAuthStore((state) => state.login);
+
+  const clearCourses = useCourseStore((state) => state.clear);
 
   const handleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse: TokenResponse) => {
@@ -70,6 +73,7 @@ export const useGoogleAuth = () => {
     try {
       await api.post("/auth/logout");
     } finally {
+      clearCourses();
       loginStore(null);
       route.push("/login");
     }
