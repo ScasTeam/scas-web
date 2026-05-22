@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 
 interface ScannerSectionProps {
@@ -19,9 +19,40 @@ export default function ScannerSection({
   onCameraError,
 }: ScannerSectionProps) {
   const scannerRef = useRef<Html5Qrcode | null>(null);
+  const isScanningRef = useRef(false);
+
+  const onDecodeRef = useRef(onDecode);
+  onDecodeRef.current = onDecode;
+
+  const onCameraErrorRef = useRef(onCameraError);
+  onCameraErrorRef.current = onCameraError;
+
+  const stopScanner = useCallback(async () => {
+    const scanner = scannerRef.current;
+    if (!scanner) return;
+
+    try {
+      const state = scanner.getState();
+      if (state === 2 || state === 3) {
+        await scanner.stop();
+      }
+      scanner.clear();
+    } catch (e) {
+      console.warn("Scanner cleanup warning:", e);
+    }
+
+    scannerRef.current = null;
+    isScanningRef.current = false;
+  }, []);
 
   useEffect(() => {
-    if (!isCameraActive) return;
+    if (!isCameraActive) {
+      stopScanner();
+      return;
+    }
+
+    if (isScanningRef.current) return;
+    isScanningRef.current = true;
 
     const scanner = new Html5Qrcode("reader");
     scannerRef.current = scanner;
@@ -31,23 +62,26 @@ export default function ScannerSection({
         { facingMode: "environment" },
         { fps: 10, qrbox: { width: 250, height: 250 } },
         (decodedText) => {
-          onDecode(decodedText);
+          onDecodeRef.current(decodedText);
         },
-        () => {}, // ignore unhandled scan errors
+        () => {},
       )
       .catch((err) => {
         console.error("Failed to start scanner:", err);
-        onCameraError(err);
+        isScanningRef.current = false;
+        onCameraErrorRef.current(err);
       });
 
     return () => {
-      scanner
-        .stop()
-        .then(() => scanner.clear())
-        .catch((e) => console.error("Failed to stop scanner", e));
-      scannerRef.current = null;
+      stopScanner();
     };
-  }, [isCameraActive, onDecode, onCameraError]);
+  }, [isCameraActive, stopScanner]);
+
+  useEffect(() => {
+    return () => {
+      stopScanner();
+    };
+  }, [stopScanner]);
 
   return (
     <div className="relative group w-full flex flex-col items-center">

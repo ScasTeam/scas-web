@@ -38,6 +38,7 @@ function VerifyQrContent() {
   const [scannedRecords, setScannedRecords] = useState<AttendanceRecord[]>([]);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const isProcessingRef = useRef(false);
 
   const processedPayloadsRef = useRef<Set<string>>(new Set());
   const toastIdRef = useRef(0);
@@ -85,13 +86,16 @@ function VerifyQrContent() {
 
   const handleQrDecode = useCallback(
     async (decodedText: string) => {
-      if (isProcessing) return;
+      // Use ref for the guard — never stale
+      if (isProcessingRef.current) return;
       if (processedPayloadsRef.current.has(decodedText)) return;
+
       processedPayloadsRef.current.add(decodedText);
       setTimeout(() => {
         processedPayloadsRef.current.delete(decodedText);
       }, 15000);
 
+      isProcessingRef.current = true;
       setIsProcessing(true);
 
       try {
@@ -125,10 +129,11 @@ function VerifyQrContent() {
           subtitle: errorMessage,
         });
       } finally {
+        isProcessingRef.current = false;
         setIsProcessing(false);
       }
     },
-    [isProcessing, verifyQr, addToast],
+    [verifyQr, addToast],
   );
 
   const handleCameraError = useCallback(
