@@ -42,7 +42,7 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
         onClick={onClose}
       ></div>
 
-      <div className="relative w-full max-w-lg mx-6 bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-[0_0_80px_rgba(255,255,255,0.05)] overflow-hidden">
+      <div className="relative w-full max-w-lg mx-6 bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-[0_0_80px_var(--foreground)]/5 overflow-hidden">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all font-abel text-xs text-white/40 hover:text-white"

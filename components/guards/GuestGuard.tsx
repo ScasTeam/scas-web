@@ -20,7 +20,11 @@ export default function GuestGuard({ children }: GuestGuardProps) {
 
   useEffect(() => {
     if (isClient && user) {
-      router.replace("/dashboard");
+      if (!user.role) {
+        router.replace("/choose-role");
+      } else {
+        router.replace("/dashboard");
+      }
     }
   }, [isClient, user, router]);
 

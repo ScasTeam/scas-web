@@ -44,7 +44,7 @@ export default function CourseInfoHeader({
   return (
     <header className="mb-10">
       <div className="flex items-start justify-between mb-4">
-        <span className="font-days text-[10px] uppercase tracking-widest text-white/30 bg-white/5 px-3 py-1 rounded-full inline-block">
+        <span className="font-days text-[10px] uppercase tracking-widest text-accent/70 bg-white/5 px-3 py-1 rounded-full inline-block">
           {course.code}
         </span>
 
@@ -53,25 +53,25 @@ export default function CourseInfoHeader({
             {!showLeaveConfirm ? (
               <button
                 onClick={() => setShowLeaveConfirm(true)}
-                className="font-abel text-[10px] uppercase tracking-widest text-red-400/50 hover:text-red-400 border border-red-400/20 hover:border-red-400/40 px-4 py-1.5 rounded-full transition-all"
+                className="font-abel text-[10px] uppercase tracking-widest text-danger/50 hover:text-danger border border-danger/20 hover:border-danger/40 px-4 py-1.5 rounded-full transition-all"
               >
                 Leave Course
               </button>
             ) : (
               <div className="flex items-center gap-2 animate-[fadeIn_0.2s_ease-out]">
-                <span className="font-abel text-[10px] text-white/40">
+                <span className="font-abel text-[10px] text-accent/70">
                   Confirm?
                 </span>
                 <button
                   onClick={onLeaveCourse}
                   disabled={isLeaving}
-                  className="font-days text-[9px] uppercase tracking-widest text-red-400 border border-red-400/30 px-3 py-1 rounded-full hover:bg-red-400/10 transition-all disabled:opacity-50"
+                  className="font-days text-[9px] uppercase tracking-widest text-danger border border-danger/30 px-3 py-1 rounded-full hover:bg-danger/10 transition-all disabled:opacity-50"
                 >
                   {isLeaving ? "Leaving..." : "Yes"}
                 </button>
                 <button
                   onClick={() => setShowLeaveConfirm(false)}
-                  className="font-days text-[9px] uppercase tracking-widest text-white/30 border border-white/10 px-3 py-1 rounded-full hover:bg-white/5 transition-all"
+                  className="font-days text-[9px] uppercase tracking-widest text-accent/70 border border-white/10 px-3 py-1 rounded-full hover:bg-white/5 transition-all"
                 >
                   No
                 </button>
@@ -86,7 +86,7 @@ export default function CourseInfoHeader({
       </h1>
 
       {course.description && (
-        <p className="font-abel text-sm text-white/40 leading-relaxed max-w-xl mb-6">
+        <p className="font-abel text-sm text-accent/70 leading-relaxed max-w-xl mb-6">
           {course.description}
         </p>
       )}
@@ -94,16 +94,16 @@ export default function CourseInfoHeader({
       {isLecturer && (
         <div className="flex items-center gap-4 pt-4 border-t border-white/5">
           <div className="flex items-center gap-2">
-            <span className="font-abel text-[9px] uppercase tracking-widest text-white/20">
+            <span className="font-abel text-[9px] uppercase tracking-widest text-accent/40">
               Invite Code:
             </span>
-            <span className="font-days text-sm tracking-[0.2em] text-white/60 bg-white/5 px-3 py-1.5 rounded-lg">
+            <span className="font-days text-sm tracking-[0.2em] text-accent bg-white/5 px-3 py-1.5 rounded-lg">
               {regCode}
             </span>
           </div>
           <button
             onClick={handleCopy}
-            className="font-abel text-[9px] uppercase tracking-widest text-white/25 hover:text-white/60 transition-colors px-2 py-1 rounded-lg hover:bg-white/5"
+            className="font-abel text-[9px] uppercase tracking-widest text-accent/40 hover:text-accent transition-colors px-2 py-1 rounded-lg hover:bg-white/5"
           >
             {copied ? "Copied!" : "Copy"}
           </button>
@@ -111,7 +111,7 @@ export default function CourseInfoHeader({
           <button
             onClick={handleRegenerate}
             disabled={isRegenerating}
-            className="font-abel text-[9px] uppercase tracking-widest text-amber-400/40 hover:text-amber-400 transition-colors disabled:opacity-30"
+            className="font-abel text-[9px] uppercase tracking-widest text-warning/40 hover:text-warning transition-colors disabled:opacity-30"
           >
             {isRegenerating ? "Regenerating..." : "Regenerate"}
           </button>
@@ -119,7 +119,7 @@ export default function CourseInfoHeader({
           {course.allowed_email_domain && (
             <>
               <div className="h-4 w-px bg-white/10"></div>
-              <span className="font-abel text-[9px] uppercase tracking-widest text-white/15">
+              <span className="font-abel text-[9px] uppercase tracking-widest text-accent/40">
                 Domain: @{course.allowed_email_domain}
               </span>
             </>

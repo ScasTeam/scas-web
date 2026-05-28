@@ -113,8 +113,8 @@ export default function ScannerSection({
                 <div
                   className={`w-2 h-2 rounded-full ${
                     isProcessing
-                      ? "bg-amber-400 animate-pulse"
-                      : "bg-green-400 animate-pulse"
+                      ? "bg-warning animate-pulse"
+                      : "bg-success animate-pulse"
                   }`}
                 ></div>
                 <span className="font-abel text-[10px] uppercase tracking-widest text-white/40">
@@ -123,7 +123,7 @@ export default function ScannerSection({
               </div>
               <button
                 onClick={onStopScanner}
-                className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-red-400 transition-colors"
+                className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-danger transition-colors"
               >
                 Stop Scanner
               </button>

@@ -80,7 +80,7 @@ export default function Header() {
             <nav className="font-days text-xl tracking-tighter link">
               <Link href={"/"}>SCAS.</Link>
             </nav>
-            <div className="flex gap-6 font-abel uppercase text-xs tracking-widest opacity-70">
+            <div className="flex gap-6 font-abel uppercase text-xs tracking-widest text-accent">
               {user.role === "student" &&
                 STUDENT_LINKS.map((s, i) => (
                   <Link

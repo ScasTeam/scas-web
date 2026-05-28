@@ -103,7 +103,7 @@ function GenerateQrContent() {
             <div className="h-1 w-12 bg-white/20 rounded-full"></div>
           </div>
 
-          <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.1)] transition-transform duration-500 hover:scale-[1.02]">
+          <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-[0_0_50px_var(--foreground)]/10 transition-transform duration-500 hover:scale-[1.02]">
             {activeQr ? (
               <div
                 className={`transition-opacity duration-300 ${isFetching ? "opacity-40" : "opacity-100"}`}

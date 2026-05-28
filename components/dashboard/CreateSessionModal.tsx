@@ -26,17 +26,17 @@ const darkTheme = createTheme({
           fontFamily: "var(--font-abel-serif)",
           fontSize: "0.875rem",
           borderRadius: "0.75rem",
-          backgroundColor: "rgba(255,255,255,0.05)",
+          backgroundColor: "#ffffff0d",
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgba(255,255,255,0.2)",
+            borderColor: "#ffffff33",
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "rgba(255,255,255,0.3)",
+            borderColor: "#ffffff4d",
             borderWidth: "1px",
           },
         },
         notchedOutline: {
-          borderColor: "rgba(255,255,255,0.1)",
+          borderColor: "#ffffff1a",
         },
         input: {
           padding: "12px 16px",
@@ -51,14 +51,14 @@ const darkTheme = createTheme({
           fontSize: "0.75rem",
           letterSpacing: "0.1em",
           textTransform: "uppercase",
-          color: "rgba(255,255,255,0.4)",
-          "&.Mui-focused": { color: "rgba(255,255,255,0.4)" },
+          color: "#ffffff66",
+          "&.Mui-focused": { color: "#ffffff66" },
         },
       },
     },
     MuiIconButton: {
       styleOverrides: {
-        root: { color: "rgba(255,255,255,0.3)" },
+        root: { color: "#ffffff4d" },
       },
     },
     MuiPickersDay: {
@@ -66,7 +66,7 @@ const darkTheme = createTheme({
         root: { fontFamily: "var(--font-abel-serif)" },
       },
     },
-  },
+  } as any,
 });
 
 interface CreateSessionModalProps {
@@ -240,7 +240,7 @@ export default function CreateSessionModal({
               </div>
 
               {error && (
-                <p className="font-abel text-xs uppercase tracking-widest text-red-400 bg-red-400/10 px-4 py-3 rounded-xl border border-red-400/20 text-center">
+                <p className="font-abel text-xs uppercase tracking-widest text-danger bg-danger/10 px-4 py-3 rounded-xl border border-danger/20 text-center">
                   {error}
                 </p>
               )}

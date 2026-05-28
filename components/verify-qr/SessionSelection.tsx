@@ -34,7 +34,7 @@ export default function SessionSelection({ sessions, isLoading, onSelectSession 
                 disabled={!isOpen}
                 className={`text-left border rounded-xl p-4 transition-all ${
                   isOpen
-                    ? "border-green-400/30 hover:border-green-400/50 hover:bg-green-400/[0.04] cursor-pointer"
+                    ? "border-success/30 hover:border-success/50 hover:bg-success/5 cursor-pointer"
                     : "border-white/5 opacity-40 cursor-not-allowed"
                 }`}
               >
@@ -45,10 +45,10 @@ export default function SessionSelection({ sessions, isLoading, onSelectSession 
                   <span
                     className={`font-days text-[8px] uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${
                       isOpen
-                        ? "border-green-400/30 text-green-400"
+                        ? "border-success/30 text-success"
                         : session.status === "scheduled"
-                          ? "border-amber-400/30 text-amber-400"
-                          : "border-red-400/30 text-red-400"
+                          ? "border-warning/30 text-warning"
+                          : "border-danger/30 text-danger"
                     }`}
                   >
                     {session.status}

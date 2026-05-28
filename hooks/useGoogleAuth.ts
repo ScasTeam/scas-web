@@ -43,8 +43,11 @@ export const useGoogleAuth = () => {
           return;
         } else {
           loginStore(res.data.user);
-
-          route.push("/dashboard");
+          if (!res.data.user.role) {
+            route.push("/choose-role");
+          } else {
+            route.push("/dashboard");
+          }
         }
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
@@ -91,8 +94,12 @@ export const useGoogleAuth = () => {
       });
 
       loginStore(res.data.user);
-      route.push("/dashboard");
-    } catch (error) {
+      if (!res.data.user.role) {
+        route.push("/choose-role");
+      } else {
+        route.push("/dashboard");
+      }
+    } catch (error: any) {
       if (error.response?.status === 400 && error.response?.data?.otp_status) {
         setOtpError(error.response.data.message);
       } else {

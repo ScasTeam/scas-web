@@ -74,7 +74,7 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
         <p className="font-days text-lg uppercase tracking-tight mb-2">
           No Sessions Yet
         </p>
-        <p className="font-abel text-xs uppercase tracking-widest text-white/30">
+        <p className="font-abel text-xs uppercase tracking-widest text-accent/70">
           Your attendance will appear here once sessions are created
         </p>
       </div>
@@ -82,16 +82,16 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
   }
 
   const statusStyles: Record<string, string> = {
-    present: "border-green-400/30 text-green-400 bg-green-400/5",
-    late: "border-amber-400/30 text-amber-400 bg-amber-400/5",
-    sick: "border-blue-400/30 text-blue-400 bg-blue-400/5",
-    absent: "border-red-400/30 text-red-400 bg-red-400/5",
+    present: "border-success/30 text-success bg-success/5",
+    late: "border-warning/30 text-warning bg-warning/5",
+    sick: "border-info/30 text-info bg-info/5",
+    absent: "border-danger/30 text-danger bg-danger/5",
   };
 
   const sessionStatusStyles: Record<string, string> = {
-    scheduled: "border-amber-400/30 text-amber-400",
-    open: "border-green-400/30 text-green-400",
-    closed: "border-red-400/30 text-red-400",
+    scheduled: "border-warning/30 text-warning",
+    open: "border-success/30 text-success",
+    closed: "border-danger/30 text-danger",
   };
 
   return (
@@ -100,21 +100,21 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
         <div className="flex items-center gap-6 mb-6 pb-6 border-b border-white/5">
           <div>
             <span className="font-days text-2xl">{stats.attended}</span>
-            <span className="font-abel text-[10px] uppercase tracking-widest text-white/25 ml-2">
+            <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
               Attended
             </span>
           </div>
           <div className="h-6 w-px bg-white/10"></div>
           <div>
             <span className="font-days text-2xl">{stats.missed}</span>
-            <span className="font-abel text-[10px] uppercase tracking-widest text-white/25 ml-2">
+            <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
               Missed
             </span>
           </div>
           <div className="h-6 w-px bg-white/10"></div>
           <div>
             <span className="font-days text-2xl">{stats.rate}%</span>
-            <span className="font-abel text-[10px] uppercase tracking-widest text-white/25 ml-2">
+            <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
               Rate
             </span>
           </div>
@@ -139,7 +139,7 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
                 <p className="font-days text-sm uppercase tracking-tight">
                   {item.session_title}
                 </p>
-                <p className="font-abel text-[10px] text-white/20">
+                <p className="font-abel text-[10px] text-accent/40">
                   {item.opened_at
                     ? dayjs.utc(item.opened_at).local().format("MMM D, h:mm A")
                     : "Not scheduled"}
@@ -157,14 +157,14 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
                   >
                     {item.attendance_status}
                   </span>
-                  <span className="font-abel text-[9px] text-white/15">
+                  <span className="font-abel text-[9px] text-accent/40">
                     {item.scanned_at
                       ? dayjs.utc(item.scanned_at).local().format("h:mm A")
                       : ""}
                   </span>
                 </>
               ) : (
-                <span className="font-days text-[9px] uppercase tracking-widest px-3 py-1 rounded-full border border-white/10 text-white/20">
+                <span className="font-days text-[9px] uppercase tracking-widest px-3 py-1 rounded-full border border-white/10 text-accent/40">
                   {item.session_status === "scheduled" ? "Upcoming" : "Absent"}
                 </span>
               )}
@@ -178,17 +178,17 @@ function StudentAttendanceView({ courseId }: { courseId: string }) {
 
 function AttendeeRow({ log }: { log: AttendeeLog }) {
   const statusStyles: Record<string, string> = {
-    present: "border-green-400/30 text-green-400",
-    late: "border-amber-400/30 text-amber-400",
-    sick: "border-blue-400/30 text-blue-400",
-    absent: "border-red-400/30 text-red-400",
+    present: "border-success/30 text-success",
+    late: "border-warning/30 text-warning",
+    sick: "border-info/30 text-info",
+    absent: "border-danger/30 text-danger",
   };
 
   return (
     <div className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-white/[0.02] transition-colors">
       <div className="flex items-center gap-3">
         <div className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-          <span className="font-days text-[9px] uppercase text-white/30">
+          <span className="font-days text-[9px] uppercase text-accent/70">
             {log.student?.name?.charAt(0) ?? "?"}
           </span>
         </div>
@@ -196,7 +196,7 @@ function AttendeeRow({ log }: { log: AttendeeLog }) {
           <p className="font-days text-xs uppercase tracking-tight">
             {log.student?.name ?? "Unknown"}
           </p>
-          <p className="font-abel text-[9px] text-white/20">
+          <p className="font-abel text-[9px] text-accent/40">
             {log.student?.email}
           </p>
         </div>
@@ -204,12 +204,12 @@ function AttendeeRow({ log }: { log: AttendeeLog }) {
       <div className="flex items-center gap-3">
         <span
           className={`font-days text-[8px] uppercase tracking-widest px-2 py-0.5 rounded-full border ${
-            statusStyles[log.status] || "border-white/10 text-white/30"
+            statusStyles[log.status] || "border-white/10 text-accent/70"
           }`}
         >
           {log.status}
         </span>
-        <span className="font-abel text-[9px] text-white/15">
+        <span className="font-abel text-[9px] text-accent/40">
           {log.scanned_at
             ? dayjs.utc(log.scanned_at).local().format("h:mm A")
             : "—"}
@@ -231,9 +231,9 @@ function SessionAccordion({
   const { fetchAttendees, attendees, isLoadingAttendees } = useAttendance();
 
   const statusStyles: Record<string, string> = {
-    scheduled: "border-amber-400/30 text-amber-400",
-    open: "border-green-400/30 text-green-400",
-    closed: "border-red-400/30 text-red-400",
+    scheduled: "border-warning/30 text-warning",
+    open: "border-success/30 text-success",
+    closed: "border-danger/30 text-danger",
   };
 
   const handleToggle = () => {
@@ -268,14 +268,14 @@ function SessionAccordion({
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="font-abel text-[10px] uppercase tracking-widest text-white/20">
+          <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40">
             {session.attendance_logs_count ?? 0} attended
           </span>
-          <span className="font-abel text-[10px] text-white/20">
+          <span className="font-abel text-[10px] text-accent/40">
             {formatTime(session.opened_at)}
           </span>
           <span
-            className={`transition-transform duration-200 text-white/20 text-xs ${
+            className={`transition-transform duration-200 text-accent/40 text-xs ${
               isOpen ? "rotate-180" : ""
             }`}
           >
@@ -291,7 +291,7 @@ function SessionAccordion({
               <div className="w-4 h-4 border border-white/20 border-t-white rounded-full animate-spin"></div>
             </div>
           ) : attendees.length === 0 ? (
-            <p className="font-abel text-xs text-white/20 text-center py-6 uppercase tracking-widest">
+            <p className="font-abel text-xs text-accent/40 text-center py-6 uppercase tracking-widest">
               No attendance records
             </p>
           ) : (
@@ -323,7 +323,7 @@ function LecturerAttendanceView({
         <p className="font-days text-lg uppercase tracking-tight mb-2">
           No Sessions Yet
         </p>
-        <p className="font-abel text-xs uppercase tracking-widest text-white/30">
+        <p className="font-abel text-xs uppercase tracking-widest text-accent/70">
           Create a session to start tracking attendance
         </p>
       </div>
@@ -341,14 +341,14 @@ function LecturerAttendanceView({
       <div className="flex items-center gap-6 mb-6 pb-6 border-b border-white/5">
         <div>
           <span className="font-days text-2xl">{totalSessions}</span>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25 ml-2">
+          <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
             Sessions
           </span>
         </div>
         <div className="h-6 w-px bg-white/10"></div>
         <div>
           <span className="font-days text-2xl">{totalAttendance}</span>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25 ml-2">
+          <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
             Total Records
           </span>
         </div>
