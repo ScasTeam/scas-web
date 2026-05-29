@@ -22,7 +22,7 @@ export default function CourseTabs({ tabs, activeTab, onTabChange }: CourseTabsP
           className={`relative font-days text-[10px] uppercase tracking-widest px-5 py-3 transition-all ${
             activeTab === tab.id
               ? "text-white"
-              : "text-white/30 hover:text-white/60"
+              : "text-accent/70 hover:text-accent"
           }`}
         >
           <span className="flex items-center gap-2">
@@ -31,8 +31,8 @@ export default function CourseTabs({ tabs, activeTab, onTabChange }: CourseTabsP
               <span
                 className={`font-abel text-[9px] px-1.5 py-0.5 rounded-full ${
                   activeTab === tab.id
-                    ? "bg-white/10 text-white/60"
-                    : "bg-white/5 text-white/20"
+                    ? "bg-white/10 text-accent"
+                    : "bg-white/5 text-accent/40"
                 }`}
               >
                 {tab.count}

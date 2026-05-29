@@ -50,7 +50,7 @@ export default function Sidebar() {
               className={`font-abel text-xs uppercase tracking-widest px-4 py-3 rounded-xl transition-all ${
                 isActive
                   ? "bg-white/10 text-white"
-                  : "text-white/30 hover:text-white/60 hover:bg-white/5"
+                  : "text-accent/70 hover:text-accent hover:bg-white/5"
               }`}
             >
               {item.label}
@@ -61,16 +61,16 @@ export default function Sidebar() {
 
       <div className="p-4 border-t border-white/5">
         <div className="px-4 mb-4">
-          <p className="font-abel text-xs text-white/50 truncate">
+          <p className="font-abel text-xs text-accent truncate">
             {user?.name}
           </p>
-          <p className="font-abel text-[10px] text-white/25 truncate">
+          <p className="font-abel text-[10px] text-accent/40 truncate">
             {user?.email}
           </p>
         </div>
         <button
           onClick={() => handleLogout()}
-          className="w-full font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white border border-white/10 hover:border-white/20 px-4 py-2.5 rounded-xl transition-all"
+          className="w-full font-abel text-[10px] uppercase tracking-widest text-accent/70 hover:text-white border border-white/10 hover:border-white/20 px-4 py-2.5 rounded-xl transition-all"
         >
           Logout
         </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/useAuthStore";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
 
 interface AuthGuardProps {
@@ -11,6 +11,7 @@ interface AuthGuardProps {
 export default function AuthGuard({ children }: AuthGuardProps) {
   const user = useAuthStore((state) => state.user);
   const router = useRouter();
+  const pathname = usePathname();
 
   const isClient = useSyncExternalStore(
     () => () => {},
@@ -19,12 +20,20 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   );
 
   useEffect(() => {
-    if (isClient && !user) {
-      router.replace("/login");
+    if (isClient) {
+      if (!user) {
+        router.replace("/login");
+      } else if (!user.role && pathname !== "/choose-role") {
+        router.replace("/choose-role");
+      } else if (user.role && pathname === "/choose-role") {
+        router.replace("/dashboard");
+      }
     }
-  }, [isClient, user, router]);
+  }, [isClient, user, router, pathname]);
 
   if (!isClient || !user) return null;
+  if (!user.role && pathname !== "/choose-role") return null;
+  if (user.role && pathname === "/choose-role") return null;
 
   return <>{children}</>;
 }

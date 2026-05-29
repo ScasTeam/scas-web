@@ -7,9 +7,9 @@ import type { Session } from "@/hooks/useCourseSessions";
 dayjs.extend(utc);
 
 const STATUS_STYLES: Record<string, string> = {
-  scheduled: "border-amber-400/30 text-amber-400",
-  open: "border-green-400/30 text-green-400",
-  closed: "border-red-400/30 text-red-400",
+  scheduled: "border-warning/30 text-warning",
+  open: "border-success/30 text-success",
+  closed: "border-danger/30 text-danger",
 };
 
 function getStatus(openedAt: string | null, closedAt: string | null): string {

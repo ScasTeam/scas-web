@@ -31,8 +31,8 @@ export default function AttendanceList({ records }: AttendanceListProps) {
               <span
                 className={`font-days text-[8px] uppercase tracking-widest px-2 py-0.5 rounded-full border ${
                   record.status === "present"
-                    ? "border-green-400/30 text-green-400"
-                    : "border-amber-400/30 text-amber-400"
+                    ? "border-success/30 text-success"
+                    : "border-warning/30 text-warning"
                 }`}
               >
                 {record.status}

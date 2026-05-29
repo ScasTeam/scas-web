@@ -25,7 +25,7 @@ export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
         <button
           onClick={onLogin}
           disabled={isLoading}
-          className="relative w-full bg-white text-black font-days text-xs uppercase tracking-[0.2em] py-6 rounded-full flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_50px_rgba(255,255,255,0.05)] disabled:opacity-50"
+          className="relative w-full bg-white text-black font-days text-xs uppercase tracking-[0.2em] py-6 rounded-full flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_50px_var(--foreground)]/5 disabled:opacity-50"
         >
           {isLoading ? (
             <span className="animate-pulse">Authorizing...</span>
@@ -55,14 +55,7 @@ export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
         </button>
       </div>
 
-      <footer className="mt-12 flex flex-col items-center gap-4">
-        <Link
-          href="/register/lecturer"
-          className="font-abel text-[10px] uppercase tracking-[0.3em] opacity-30 hover:opacity-100 transition-opacity"
-        >
-          Lecturer? Register here
-        </Link>
-      </footer>
+
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function StudentsTab({ students, isLoading, onKick }: StudentsTab
         <p className="font-days text-lg uppercase tracking-tight mb-2">
           No Students Yet
         </p>
-        <p className="font-abel text-xs uppercase tracking-widest text-white/30">
+        <p className="font-abel text-xs uppercase tracking-widest text-accent/70">
           Share the registration code with your students
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function StudentsTab({ students, isLoading, onKick }: StudentsTab
         >
           <div className="flex items-center gap-4">
             <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-              <span className="font-days text-xs uppercase text-white/40">
+              <span className="font-days text-xs uppercase text-accent/70">
                 {student.name.charAt(0)}
               </span>
             </div>
@@ -61,14 +61,14 @@ export default function StudentsTab({ students, isLoading, onKick }: StudentsTab
               <p className="font-days text-sm uppercase tracking-tight">
                 {student.name}
               </p>
-              <p className="font-abel text-[10px] text-white/25">
+              <p className="font-abel text-[10px] text-accent/40">
                 {student.email}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="font-abel text-[9px] uppercase tracking-widest text-white/15">
+            <span className="font-abel text-[9px] uppercase tracking-widest text-accent/40">
               {new Date(student.enrolled_at).toLocaleDateString()}
             </span>
 
@@ -77,13 +77,13 @@ export default function StudentsTab({ students, isLoading, onKick }: StudentsTab
                 <button
                   onClick={() => handleKick(student.id)}
                   disabled={kickingId === student.id}
-                  className="font-days text-[8px] uppercase tracking-widest text-red-400 border border-red-400/30 px-2.5 py-1 rounded-full hover:bg-red-400/10 transition-all disabled:opacity-50"
+                  className="font-days text-[8px] uppercase tracking-widest text-danger border border-danger/30 px-2.5 py-1 rounded-full hover:bg-danger/10 transition-all disabled:opacity-50"
                 >
                   {kickingId === student.id ? "..." : "Remove"}
                 </button>
                 <button
                   onClick={() => setConfirmId(null)}
-                  className="font-days text-[8px] uppercase tracking-widest text-white/30 border border-white/10 px-2.5 py-1 rounded-full hover:bg-white/5 transition-all"
+                  className="font-days text-[8px] uppercase tracking-widest text-accent/70 border border-white/10 px-2.5 py-1 rounded-full hover:bg-white/5 transition-all"
                 >
                   Cancel
                 </button>
@@ -91,7 +91,7 @@ export default function StudentsTab({ students, isLoading, onKick }: StudentsTab
             ) : (
               <button
                 onClick={() => setConfirmId(student.id)}
-                className="font-abel text-[9px] uppercase tracking-widest text-white/15 hover:text-red-400/60 transition-colors"
+                className="font-abel text-[9px] uppercase tracking-widest text-accent/40 hover:text-danger/60 transition-colors"
               >
                 Kick
               </button>

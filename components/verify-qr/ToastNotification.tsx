@@ -22,16 +22,16 @@ export default function ToastNotification({ toasts }: ToastNotificationProps) {
           key={toast.id}
           className={`pointer-events-auto animate-[slideIn_0.3s_ease-out] border rounded-xl p-4 backdrop-blur-md shadow-2xl transition-all ${
             toast.type === "success"
-              ? "bg-green-950/80 border-green-400/30"
-              : "bg-red-950/80 border-red-400/30"
+              ? "bg-success-dark/80 border-success/30"
+              : "bg-danger-dark/80 border-danger/30"
           }`}
         >
           <div className="flex items-center gap-3">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0 ${
                 toast.type === "success"
-                  ? "bg-green-400 text-black"
-                  : "bg-red-400 text-black"
+                  ? "bg-success text-black"
+                  : "bg-danger text-black"
               }`}
             >
               {toast.type === "success" ? "✓" : "✕"}
@@ -50,8 +50,8 @@ export default function ToastNotification({ toasts }: ToastNotificationProps) {
               <span
                 className={`font-days text-[8px] uppercase tracking-widest px-2 py-0.5 rounded-full border shrink-0 ${
                   toast.status === "present"
-                    ? "border-green-400/30 text-green-400"
-                    : "border-amber-400/30 text-amber-400"
+                    ? "border-success/30 text-success"
+                    : "border-warning/30 text-warning"
                 }`}
               >
                 {toast.status}
