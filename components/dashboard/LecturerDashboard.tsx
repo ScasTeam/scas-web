@@ -24,19 +24,19 @@ function CourseCard({ course }: { course: Course }) {
     >
       <div className="group relative border border-white/10 rounded-2xl p-6 transition-all duration-300 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/30 cursor-pointer hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(255,255,255,0.02)]">
         <div className="flex items-start justify-between mb-4">
-          <span className="font-days text-[10px] uppercase tracking-widest text-accent/70 bg-white/5 px-3 py-1 rounded-full">
+          <span className="font-days text-[10px] uppercase tracking-widest text-gray-400 bg-white/5 px-3 py-1 rounded-full">
             {course.code}
           </span>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div>
-              <span className="font-abel text-[10px] uppercase tracking-widest text-accent/70">
+              <span className="font-abel text-[10px] uppercase tracking-widest text-gray-400">
                 {course.students_count ?? 0} students
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div>
-              <span className="font-abel text-[10px] uppercase tracking-widest text-accent/70">
+              <span className="font-abel text-[10px] uppercase tracking-widest text-gray-400">
                 {course.sessions_count ?? 0} sessions
               </span>
             </div>
@@ -48,23 +48,23 @@ function CourseCard({ course }: { course: Course }) {
         </h3>
 
         {course.description && (
-          <p className="font-abel text-sm text-accent/70 leading-relaxed line-clamp-2 mb-3">
+          <p className="font-abel text-sm text-gray-400 leading-relaxed line-clamp-2 mb-3">
             {course.description}
           </p>
         )}
 
         <div className="flex items-center justify-between pt-3 border-t border-white/5">
           <div className="flex items-center gap-2">
-            <span className="font-abel text-[9px] uppercase tracking-widest text-accent/40">
+            <span className="font-abel text-[9px] uppercase tracking-widest text-gray-500">
               Invite Code:
             </span>
-            <span className="font-days text-xs tracking-widest text-accent">
+            <span className="font-days text-xs tracking-widest text-gray-300">
               {course.registration_code}
             </span>
           </div>
           <button
             onClick={handleCopyCode}
-            className="font-abel text-[9px] uppercase tracking-widest text-accent/40 hover:text-accent transition-colors px-2 py-1 rounded-lg hover:bg-white/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+            className="font-abel text-[9px] uppercase tracking-widest text-gray-500 hover:text-gray-300 transition-colors px-2 py-1 rounded-lg hover:bg-white/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
           >
             {copied ? "Copied!" : "Copy"}
           </button>
@@ -84,7 +84,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       <p className="font-days text-lg uppercase tracking-tight mb-2">
         No Courses Yet
       </p>
-      <p className="font-abel text-xs uppercase tracking-widest text-accent/70 mb-6">
+      <p className="font-abel text-xs uppercase tracking-widest text-gray-400 mb-6">
         Create your first course to get started
       </p>
       <button
@@ -116,7 +116,7 @@ export default function LecturerDashboard() {
   return (
     <>
       <header className="text-center mb-16">
-        <span className="font-days text-sm uppercase text-accent tracking-[0.3em] mb-4 block">
+        <span className="font-days text-sm uppercase text-gray-500 tracking-[0.3em] mb-4 block">
           Lecturer Portal
         </span>
         <h1 className="font-days text-4xl md:text-6xl uppercase tracking-tighter leading-none mb-6">
@@ -127,7 +127,7 @@ export default function LecturerDashboard() {
       <section className="w-full">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <span className="font-days text-xs uppercase tracking-widest text-accent/70">
+            <span className="font-days text-xs uppercase tracking-widest text-gray-400">
               {courses.length} {courses.length === 1 ? "Course" : "Courses"}
             </span>
             {isLoading && (
@@ -138,7 +138,7 @@ export default function LecturerDashboard() {
             <button
               onClick={refetch}
               disabled={isLoading}
-              className="font-abel text-[10px] uppercase tracking-widest text-accent/70 hover:text-white transition-colors disabled:opacity-30"
+              className="font-abel text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors disabled:opacity-30"
             >
               Refresh
             </button>

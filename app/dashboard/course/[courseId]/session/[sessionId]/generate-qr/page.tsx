@@ -98,7 +98,7 @@ function GenerateQrContent() {
       <div className="z-10 w-full max-w-xl flex flex-col items-center">
         <button
           onClick={() => router.push(`/dashboard/course/${courseId}`)}
-          className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors self-start mb-8"
+          className="font-abel text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors self-start mb-8"
         >
           ← Back to Sessions
         </button>
