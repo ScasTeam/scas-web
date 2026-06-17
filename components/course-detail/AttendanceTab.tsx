@@ -314,6 +314,8 @@ function LecturerAttendanceView({
   sessions: Session[];
   courseId: string;
 }) {
+  const [isExportOpen, setIsExportOpen] = useState(false);
+
   if (sessions.length === 0) {
     return (
       <div className="border border-dashed border-white/10 rounded-2xl p-12 flex flex-col items-center text-center">
@@ -336,21 +338,70 @@ function LecturerAttendanceView({
     0,
   );
 
+  const handleExport = (format: "csv" | "xlsx" | "pdf") => {
+    setIsExportOpen(false);
+    window.open(`/api/courses/${courseId}/export?format=${format}`, "_blank");
+  };
+
   return (
     <div>
-      <div className="flex items-center gap-6 mb-6 pb-6 border-b border-white/5">
-        <div>
-          <span className="font-days text-2xl">{totalSessions}</span>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
-            Sessions
-          </span>
+      <div className="flex items-center justify-between gap-6 mb-6 pb-6 border-b border-white/5">
+        <div className="flex items-center gap-6">
+          <div>
+            <span className="font-days text-2xl">{totalSessions}</span>
+            <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
+              Sessions
+            </span>
+          </div>
+          <div className="h-6 w-px bg-white/10"></div>
+          <div>
+            <span className="font-days text-2xl">{totalAttendance}</span>
+            <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
+              Total Records
+            </span>
+          </div>
         </div>
-        <div className="h-6 w-px bg-white/10"></div>
-        <div>
-          <span className="font-days text-2xl">{totalAttendance}</span>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-accent/40 ml-2">
-            Total Records
-          </span>
+
+        <div className="relative">
+          <button
+            onClick={() => setIsExportOpen(!isExportOpen)}
+            className="font-days text-[10px] uppercase tracking-widest bg-white text-black px-5 py-2.5 rounded-full hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+          >
+            Export Report
+            <span className="text-[8px] opacity-70">▼</span>
+          </button>
+          
+          {isExportOpen && (
+            <>
+              <div 
+                className="fixed inset-0 z-40" 
+                onClick={() => setIsExportOpen(false)}
+              />
+              <div className="absolute right-0 mt-2 w-40 rounded-2xl bg-black border border-white/10 p-2 shadow-2xl z-50 flex flex-col gap-1">
+                <button
+                  onClick={() => handleExport("xlsx")}
+                  className="w-full text-left font-abel text-xs uppercase tracking-widest px-4 py-2.5 hover:bg-white/5 rounded-xl transition-all text-white/80 hover:text-white flex items-center justify-between cursor-pointer"
+                >
+                  Excel
+                  <span className="font-mono text-[9px] opacity-35">.xlsx</span>
+                </button>
+                <button
+                  onClick={() => handleExport("pdf")}
+                  className="w-full text-left font-abel text-xs uppercase tracking-widest px-4 py-2.5 hover:bg-white/5 rounded-xl transition-all text-white/80 hover:text-white flex items-center justify-between cursor-pointer"
+                >
+                  PDF
+                  <span className="font-mono text-[9px] opacity-35">.pdf</span>
+                </button>
+                <button
+                  onClick={() => handleExport("csv")}
+                  className="w-full text-left font-abel text-xs uppercase tracking-widest px-4 py-2.5 hover:bg-white/5 rounded-xl transition-all text-white/80 hover:text-white flex items-center justify-between cursor-pointer"
+                >
+                  CSV
+                  <span className="font-mono text-[9px] opacity-35">.csv</span>
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

@@ -10,12 +10,12 @@ export default function Page() {
 
   return (
     <AuthGuard>
-      <main className="flex min-h-screen flex-col items-center px-6 py-24 selection:bg-white selection:text-black overflow-hidden relative">
+      <main className="flex min-h-screen flex-col items-center px-4 md:px-8 py-8 md:py-16 selection:bg-white selection:text-black overflow-x-hidden relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 blur-[120px] pointer-events-none">
           <div className="h-[500px] w-[500px] rounded-full bg-white/40"></div>
         </div>
 
-        <div className="z-10 w-full max-w-4xl">
+        <div className="z-10 w-full max-w-5xl">
           {user?.role === "lecturer" && <LecturerDashboard />}
           {user?.role === "student" && <StudentDashboard />}
         </div>

@@ -2,6 +2,7 @@
 
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import Link from "next/link";
 import type { Session } from "@/hooks/useCourseSessions";
 
 dayjs.extend(utc);
@@ -26,13 +27,22 @@ function getStatus(openedAt: string | null, closedAt: string | null): string {
   return "open";
 }
 
-function SessionCard({ session }: { session: Session }) {
+function SessionCard({
+  session,
+  isLecturer,
+  courseId,
+}: {
+  session: Session;
+  isLecturer: boolean;
+  courseId: string;
+}) {
   const formatTime = (dateStr: string | null) => {
     if (!dateStr) return "N/A";
     return dayjs.utc(dateStr).local().format("MMM D, h:mm A");
   };
 
   const status = getStatus(session.opened_at, session.closed_at);
+  const showAttend = !isLecturer && status === "open";
 
   return (
     <div className="group border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-500 bg-white/[0.02] hover:bg-white/[0.04]">
@@ -58,25 +68,36 @@ function SessionCard({ session }: { session: Session }) {
         </p>
       )}
 
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-1.5">
-          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
-            {session.attendance_logs_count ?? 0} records
-          </span>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+            <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
+              {session.attendance_logs_count ?? 0} records
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+            <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
+              Open: {formatTime(session.opened_at)}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+            <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
+              Close: {formatTime(session.closed_at)}
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
-            Open: {formatTime(session.opened_at)}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-          <span className="font-abel text-[10px] uppercase tracking-widest text-white/25">
-            Close: {formatTime(session.closed_at)}
-          </span>
-        </div>
+
+        {showAttend && (
+          <Link
+            href={`/dashboard/course/${courseId}/session/${session.id}/generate-qr`}
+            className="font-days text-[9px] uppercase tracking-widest bg-success text-black px-4 py-2 rounded-full hover:scale-105 active:scale-95 transition-all"
+          >
+            Tap to Attend
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -101,9 +122,16 @@ function EmptyState() {
 interface SessionListProps {
   sessions: Session[];
   isLoading: boolean;
+  isLecturer: boolean;
+  courseId: string;
 }
 
-export default function SessionList({ sessions, isLoading }: SessionListProps) {
+export default function SessionList({
+  sessions,
+  isLoading,
+  isLecturer,
+  courseId,
+}: SessionListProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -119,7 +147,12 @@ export default function SessionList({ sessions, isLoading }: SessionListProps) {
   return (
     <div className="flex flex-col gap-3">
       {sessions.map((session) => (
-        <SessionCard key={session.id} session={session} />
+        <SessionCard
+          key={session.id}
+          session={session}
+          isLecturer={isLecturer}
+          courseId={courseId}
+        />
       ))}
     </div>
   );

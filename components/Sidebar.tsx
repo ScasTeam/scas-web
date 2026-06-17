@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useGoogleAuth } from "@/hooks/useGoogleAuth";
+import { X } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -17,10 +18,15 @@ const LECTURER_NAV: NavItem[] = [
 
 const STUDENT_NAV: NavItem[] = [
   { label: "Courses", href: "/dashboard" },
-  { label: "Generate QR", href: "/dashboard/generate-qr" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ 
+  isOpen, 
+  setIsOpen 
+}: { 
+  isOpen?: boolean; 
+  setIsOpen?: (v: boolean) => void;
+}) {
   const user = useAuthStore((state) => state.user);
   const { handleLogout } = useGoogleAuth();
   const pathname = usePathname();
@@ -28,53 +34,73 @@ export default function Sidebar() {
   const navItems = user?.role === "lecturer" ? LECTURER_NAV : STUDENT_NAV;
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-56 bg-[#050505] border-r border-white/5 flex flex-col z-50">
-      <div className="p-6 border-b border-white/5">
-        <Link href="/" className="font-days text-2xl tracking-tighter">
-          SCAS.
-        </Link>
-      </div>
-
-      <nav className="flex-1 p-4 flex flex-col gap-1">
-        {navItems.map((item) => {
-          const isActive =
-            item.href === "/dashboard"
-              ? pathname === "/dashboard" ||
-                pathname.startsWith("/dashboard/course")
-              : pathname === item.href;
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`font-abel text-xs uppercase tracking-widest px-4 py-3 rounded-xl transition-all ${
-                isActive
-                  ? "bg-white/10 text-white"
-                  : "text-accent/70 hover:text-accent hover:bg-white/5"
-              }`}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="p-4 border-t border-white/5">
-        <div className="px-4 mb-4">
-          <p className="font-abel text-xs text-accent truncate">
-            {user?.name}
-          </p>
-          <p className="font-abel text-[10px] text-accent/40 truncate">
-            {user?.email}
-          </p>
+    <>
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          onClick={() => setIsOpen?.(false)}
+        />
+      )}
+      <aside 
+        className={`fixed top-0 left-0 h-screen w-56 bg-[#050505] border-r border-white/5 flex flex-col z-50 transition-transform duration-300 ease-in-out md:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-6 border-b border-white/5 flex justify-between items-center">
+          <Link href="/" className="font-days text-2xl tracking-tighter text-white">
+            SCAS.
+          </Link>
+          <button 
+            className="md:hidden text-white/70 hover:text-white p-1 -mr-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+            onClick={() => setIsOpen?.(false)}
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        <button
-          onClick={() => handleLogout()}
-          className="w-full font-abel text-[10px] uppercase tracking-widest text-accent/70 hover:text-white border border-white/10 hover:border-white/20 px-4 py-2.5 rounded-xl transition-all"
-        >
-          Logout
-        </button>
-      </div>
-    </aside>
+
+        <nav className="flex-1 p-4 flex flex-col gap-1">
+          {navItems.map((item) => {
+            const isActive =
+              item.href === "/dashboard"
+                ? pathname === "/dashboard" ||
+                  pathname.startsWith("/dashboard/course")
+                : pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen?.(false)}
+                className={`font-abel text-xs uppercase tracking-widest px-4 py-3 rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 ${
+                  isActive
+                    ? "bg-white/10 text-white"
+                    : "text-gray-400 hover:text-white hover:bg-white/5 hover:translate-x-1"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="p-4 border-t border-white/5">
+          <div className="px-4 mb-4">
+            <p className="font-abel text-xs text-gray-300 truncate">
+              {user?.name}
+            </p>
+            <p className="font-abel text-[10px] text-gray-500 truncate">
+              {user?.email}
+            </p>
+          </div>
+          <button
+            onClick={() => handleLogout()}
+            className="w-full font-abel text-[10px] uppercase tracking-widest text-gray-400 hover:text-white border border-white/10 hover:border-white/20 hover:bg-white/5 px-4 py-2.5 rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 cursor-pointer"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

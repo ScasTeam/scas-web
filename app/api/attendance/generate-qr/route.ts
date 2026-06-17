@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("scas_token")?.value;
+    const body = await request.json().catch(() => ({}));
 
     const apiResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/attendance/generate-qr`,
@@ -13,6 +14,7 @@ export async function POST(request: NextRequest) {
           "Content-type": "application/json",
           Accept: "application/json",
         },
+        body: JSON.stringify(body),
       },
     );
 

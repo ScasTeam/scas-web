@@ -12,9 +12,13 @@ interface CourseTabsProps {
   onTabChange: (tabId: string) => void;
 }
 
-export default function CourseTabs({ tabs, activeTab, onTabChange }: CourseTabsProps) {
+export default function CourseTabs({
+  tabs,
+  activeTab,
+  onTabChange,
+}: CourseTabsProps) {
   return (
-    <div className="flex items-center gap-1 border-b border-white/10 mb-8">
+    <div className="flex items-center gap-1 border-b border-white/10 mb-8 overflow-x-scroll">
       {tabs.map((tab) => (
         <button
           key={tab.id}

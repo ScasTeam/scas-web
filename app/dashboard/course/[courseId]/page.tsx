@@ -83,15 +83,15 @@ export default function Page() {
 
   return (
     <AuthGuard>
-      <main className="flex min-h-screen flex-col px-6 py-16 selection:bg-white selection:text-black overflow-hidden relative">
+      <main className="flex min-h-screen flex-col px-4 md:px-8 py-8 md:py-16 selection:bg-white selection:text-black overflow-x-hidden relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 blur-[120px] pointer-events-none">
           <div className="h-[500px] w-[500px] rounded-full bg-white/40"></div>
         </div>
 
-        <div className="z-10 w-full max-w-4xl mx-auto">
+        <div className="z-10 w-full max-w-5xl mx-auto">
           <Link
             href="/dashboard"
-            className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors inline-flex items-center gap-2 mb-10"
+            className="font-abel text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors inline-flex items-center gap-2 mb-10"
           >
             ← Back to Courses
           </Link>
@@ -123,7 +123,7 @@ export default function Page() {
                       <button
                         onClick={refetchSessions}
                         disabled={isLoadingSessions}
-                        className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors disabled:opacity-30"
+                        className="font-abel text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors disabled:opacity-30"
                       >
                         Refresh
                       </button>
@@ -141,6 +141,8 @@ export default function Page() {
                   <SessionList
                     sessions={sessions}
                     isLoading={isLoadingSessions}
+                    isLecturer={isLecturer}
+                    courseId={courseId}
                   />
                 </section>
               )}
@@ -168,7 +170,7 @@ export default function Page() {
               </p>
               <Link
                 href="/dashboard"
-                className="font-abel text-xs uppercase tracking-widest text-white/30 hover:text-white transition-colors mt-4"
+                className="font-abel text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors mt-4"
               >
                 Return to Dashboard
               </Link>

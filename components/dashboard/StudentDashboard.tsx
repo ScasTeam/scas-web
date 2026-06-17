@@ -9,15 +9,18 @@ import EnrollCourseModal from "@/components/dashboard/EnrollCourseModal";
 
 function CourseCard({ course }: { course: Course }) {
   return (
-    <Link href={`/dashboard/course/${course.id}`}>
-      <div className="group relative border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-500 bg-white/[0.02] hover:bg-white/[0.04] cursor-pointer">
+    <Link 
+      href={`/dashboard/course/${course.id}`}
+      className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+    >
+      <div className="group relative border border-white/10 rounded-2xl p-6 transition-all duration-300 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/30 cursor-pointer hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(255,255,255,0.02)]">
         <div className="flex items-start justify-between mb-4">
-          <span className="font-days text-[10px] uppercase tracking-widest text-accent/70 bg-white/5 px-3 py-1 rounded-full">
+          <span className="font-days text-[10px] uppercase tracking-widest text-gray-400 bg-white/5 px-3 py-1 rounded-full">
             {course.code}
           </span>
           <div className="flex items-center gap-1.5">
-            <div className="w-1 h-1 bg-white/30 rounded-full"></div>
-            <span className="font-abel text-[10px] uppercase tracking-widest text-accent/70">
+            <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div>
+            <span className="font-abel text-[10px] uppercase tracking-widest text-gray-400">
               {course.sessions_count ?? 0} sessions
             </span>
           </div>
@@ -30,14 +33,14 @@ function CourseCard({ course }: { course: Course }) {
         {course.lecturer && (
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-            <span className="font-abel text-xs text-accent/70">
+            <span className="font-abel text-xs text-gray-400">
               {course.lecturer.name}
             </span>
           </div>
         )}
 
         {course.description && (
-          <p className="font-abel text-sm text-accent/70 leading-relaxed line-clamp-2">
+          <p className="font-abel text-sm text-gray-400 leading-relaxed line-clamp-2">
             {course.description}
           </p>
         )}
@@ -45,6 +48,7 @@ function CourseCard({ course }: { course: Course }) {
     </Link>
   );
 }
+
 
 function EmptyState({ onJoin }: { onJoin: () => void }) {
   return (
@@ -55,7 +59,7 @@ function EmptyState({ onJoin }: { onJoin: () => void }) {
       <p className="font-days text-lg uppercase tracking-tight mb-2">
         No Courses Yet
       </p>
-      <p className="font-abel text-xs uppercase tracking-widest text-accent/70 mb-6">
+      <p className="font-abel text-xs uppercase tracking-widest text-gray-400 mb-6">
         Join a course using a registration code from your lecturer
       </p>
       <button
@@ -91,7 +95,7 @@ export default function StudentDashboard() {
   return (
     <>
       <header className="text-center mb-16">
-        <span className="font-days text-sm uppercase text-accent tracking-[0.3em] mb-4 block">
+        <span className="font-days text-sm uppercase text-gray-500 tracking-[0.3em] mb-4 block">
           Student Portal
         </span>
         <h1 className="font-days text-4xl md:text-6xl uppercase tracking-tighter leading-none mb-6">
@@ -102,7 +106,7 @@ export default function StudentDashboard() {
       <section className="w-full">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <span className="font-days text-xs uppercase tracking-widest text-accent/70">
+            <span className="font-days text-xs uppercase tracking-widest text-gray-400">
               {courses.length} Enrolled
             </span>
             {isLoading && (
@@ -113,7 +117,7 @@ export default function StudentDashboard() {
             <button
               onClick={refetch}
               disabled={isLoading}
-              className="font-abel text-[10px] uppercase tracking-widest text-accent/70 hover:text-white transition-colors disabled:opacity-30"
+              className="font-abel text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors disabled:opacity-30"
             >
               Refresh
             </button>

@@ -3,11 +3,24 @@
 import Link from "next/link";
 
 interface LoginFormProps {
-  onLogin: () => void;
+  onGoogleLogin: () => void;
+  onEmailLogin: (e: React.FormEvent) => void;
   isLoading: boolean;
+  email: string;
+  setEmail: (email: string) => void;
+  password?: string;
+  setPassword?: (password: string) => void;
 }
 
-export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
+export default function LoginForm({
+  onGoogleLogin,
+  onEmailLogin,
+  isLoading,
+  email,
+  setEmail,
+  password,
+  setPassword,
+}: LoginFormProps) {
   return (
     <div className="z-10 w-full max-w-md flex flex-col items-center">
       <header className="text-center mb-16">
@@ -19,13 +32,50 @@ export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
         </p>
       </header>
 
+      <div className="w-full relative group mb-6">
+        <form onSubmit={onEmailLogin} className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email Address"
+            required
+            disabled={isLoading}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-all"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            disabled={isLoading}
+            value={password}
+            onChange={(e) => setPassword?.(e.target.value)}
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-all"
+          />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-white text-black font-days text-xs uppercase tracking-[0.2em] py-4 rounded-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isLoading ? "Signing in..." : "Sign In / Sign Up"}
+          </button>
+        </form>
+      </div>
+
+      <div className="flex items-center w-full gap-4 mb-6 opacity-50">
+        <div className="flex-1 h-px bg-white/20"></div>
+        <span className="text-xs uppercase tracking-widest font-abel">or</span>
+        <div className="flex-1 h-px bg-white/20"></div>
+      </div>
+
       <div className="relative group w-full">
         <div className="absolute -inset-4 border border-white/5 rounded-[2rem] pointer-events-none transition-all duration-700 group-hover:border-white/10"></div>
 
         <button
-          onClick={onLogin}
+          onClick={onGoogleLogin}
           disabled={isLoading}
-          className="relative w-full bg-white text-black font-days text-xs uppercase tracking-[0.2em] py-6 rounded-full flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_50px_var(--foreground)]/5 disabled:opacity-50"
+          type="button"
+          className="relative w-full bg-transparent border border-white/20 text-white font-days text-xs uppercase tracking-[0.2em] py-4 rounded-xl flex items-center justify-center gap-4 hover:bg-white/5 active:scale-95 transition-all disabled:opacity-50"
         >
           {isLoading ? (
             <span className="animate-pulse">Authorizing...</span>
@@ -49,7 +99,7 @@ export default function LoginForm({ onLogin, isLoading }: LoginFormProps) {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 />
               </svg>
-              Login with Google SSO
+              Google SSO
             </>
           )}
         </button>
