@@ -3,6 +3,7 @@
 import api from "@/lib/axios";
 import { useAuthStore, type User } from "@/store/useAuthStore";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { QRCodeSVG } from "qrcode.react";
 import RoleGuard from "@/components/guards/RoleGuard";
 
@@ -14,26 +15,36 @@ interface QRBatch {
 
 function GenerateQrContent() {
   const user: User | null = useAuthStore((state) => state.user);
+  const { courseId, sessionId } = useParams<{ courseId: string; sessionId: string }>();
+  const router = useRouter();
   const qrBuffer = useRef<string[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [activeQr, setActiveQr] = useState<string | undefined>("");
   const [currentBufferCount, setCurrentBufferCount] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchQrBatch = async () => {
-    if (!user || isFetching) {
+    if (!user || isFetching || !sessionId) {
       return;
     }
 
     setIsFetching(true);
+    setError(null);
 
     try {
-      const res: QRBatch = await api.post("/attendance/generate-qr");
+      const res: QRBatch = await api.post("/attendance/generate-qr", {
+        session_id: sessionId
+      });
       console.log(res.data);
       qrBuffer.current = res.data.qr_batch;
       setActiveQr(qrBuffer.current.shift());
       setCurrentBufferCount(qrBuffer.current.length);
       setTimeLeft(10);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || "Failed to generate QR protocol");
+      setActiveQr(undefined);
     } finally {
       setIsFetching(false);
     }
@@ -46,7 +57,7 @@ function GenerateQrContent() {
   );
 
   useEffect(() => {
-    if (!isClient || !user) {
+    if (!isClient || !user || !sessionId) {
       return;
     }
 
@@ -62,7 +73,7 @@ function GenerateQrContent() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isClient, user]);
+  }, [isClient, user, sessionId]);
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -79,12 +90,19 @@ function GenerateQrContent() {
   if (!isClient) return null;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground px-6 py-24 selection:bg-white selection:text-black overflow-hidden">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground px-6 py-24 selection:bg-white selection:text-black overflow-hidden relative">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 blur-[120px] pointer-events-none">
         <div className="h-[600px] w-[600px] rounded-full bg-white"></div>
       </div>
 
       <div className="z-10 w-full max-w-xl flex flex-col items-center">
+        <button
+          onClick={() => router.push(`/dashboard/course/${courseId}`)}
+          className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors self-start mb-8"
+        >
+          ← Back to Sessions
+        </button>
+
         <header className="text-center mb-16">
           <span className="font-days text-sm uppercase text-white/40 tracking-[0.3em] mb-4 block">
             Attendance Protocol
@@ -120,7 +138,7 @@ function GenerateQrContent() {
               </div>
             ) : (
               <div className="w-[200px] h-[200px] md:w-[260px] md:h-[260px] flex flex-col items-center justify-center text-black/40 font-abel uppercase tracking-widest text-center px-4">
-                <p className="mb-4 text-xs md:text-sm">Session Expired</p>
+                <p className="mb-4 text-xs md:text-sm">{error || "Session Expired"}</p>
                 <button
                   onClick={() => fetchQrBatch()}
                   className="bg-black text-white px-6 py-3 rounded-full text-[10px] md:text-xs hover:scale-105 transition-transform"
@@ -131,24 +149,26 @@ function GenerateQrContent() {
             )}
           </div>
 
-          <div className="mt-12 flex flex-col items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="font-days text-4xl tabular-nums">
-                {timeLeft.toString().padStart(2, "0")}
+          {activeQr && (
+            <div className="mt-12 flex flex-col items-center gap-4">
+              <div className="flex items-center gap-4">
+                <div className="font-days text-4xl tabular-nums">
+                  {timeLeft.toString().padStart(2, "0")}
+                </div>
+                <div className="h-8 w-px bg-white/20"></div>
+                <div className="font-abel text-xs uppercase tracking-[0.2em] opacity-40">
+                  Seconds <br /> Remaining
+                </div>
               </div>
-              <div className="h-8 w-px bg-white/20"></div>
-              <div className="font-abel text-xs uppercase tracking-[0.2em] opacity-40">
-                Seconds <br /> Remaining
-              </div>
-            </div>
 
-            <div className="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-white transition-all duration-1000 ease-linear"
-                style={{ width: `${(timeLeft / 10) * 100}%` }}
-              ></div>
+              <div className="w-48 h-1 bg-white/5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-white transition-all duration-1000 ease-linear"
+                  style={{ width: `${(timeLeft / 10) * 100}%` }}
+                ></div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <footer className="mt-24 flex flex-col items-center gap-6 opacity-30 group">

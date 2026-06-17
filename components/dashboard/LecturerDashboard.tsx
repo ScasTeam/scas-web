@@ -18,21 +18,24 @@ function CourseCard({ course }: { course: Course }) {
   };
 
   return (
-    <Link href={`/dashboard/course/${course.id}`}>
-      <div className="group relative border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-500 bg-white/[0.02] hover:bg-white/[0.04] cursor-pointer">
+    <Link 
+      href={`/dashboard/course/${course.id}`}
+      className="block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+    >
+      <div className="group relative border border-white/10 rounded-2xl p-6 transition-all duration-300 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/30 cursor-pointer hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(255,255,255,0.02)]">
         <div className="flex items-start justify-between mb-4">
           <span className="font-days text-[10px] uppercase tracking-widest text-accent/70 bg-white/5 px-3 py-1 rounded-full">
             {course.code}
           </span>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <div className="w-1 h-1 bg-white/30 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div>
               <span className="font-abel text-[10px] uppercase tracking-widest text-accent/70">
                 {course.students_count ?? 0} students
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-1 h-1 bg-white/30 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-white/30 rounded-full"></div>
               <span className="font-abel text-[10px] uppercase tracking-widest text-accent/70">
                 {course.sessions_count ?? 0} sessions
               </span>
@@ -61,7 +64,7 @@ function CourseCard({ course }: { course: Course }) {
           </div>
           <button
             onClick={handleCopyCode}
-            className="font-abel text-[9px] uppercase tracking-widest text-accent/40 hover:text-accent transition-colors px-2 py-1 rounded-lg hover:bg-white/5"
+            className="font-abel text-[9px] uppercase tracking-widest text-accent/40 hover:text-accent transition-colors px-2 py-1 rounded-lg hover:bg-white/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
           >
             {copied ? "Copied!" : "Copy"}
           </button>
@@ -69,6 +72,7 @@ function CourseCard({ course }: { course: Course }) {
       </div>
     </Link>
   );
+
 }
 
 function EmptyState({ onAdd }: { onAdd: () => void }) {

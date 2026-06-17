@@ -95,17 +95,18 @@ export default function ScannerSection({
             </div>
             <button
               onClick={onStartScanner}
-              className="font-days text-xs uppercase tracking-[0.2em] bg-white text-black px-8 py-4 rounded-full hover:scale-105 transition-transform"
+              className="font-days text-xs uppercase tracking-[0.2em] bg-white text-black px-8 py-4 rounded-full hover:scale-105 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 cursor-pointer"
             >
               Start Continuous Scan
             </button>
           </div>
         ) : (
-          <div className="w-full">
-            <div
-              id="reader"
-              className="w-full rounded-xl overflow-hidden"
-            ></div>
+          <div className="w-full relative">
+            <div className="relative rounded-xl overflow-hidden">
+              <div id="reader" className="w-full"></div>
+              {/* Laser Line Overlay */}
+              <div className="absolute left-0 w-full h-[2px] bg-white opacity-40 animate-laser pointer-events-none" />
+            </div>
 
             {/* Processing indicator */}
             <div className="flex items-center justify-between mt-4">
@@ -123,7 +124,7 @@ export default function ScannerSection({
               </div>
               <button
                 onClick={onStopScanner}
-                className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-danger transition-colors"
+                className="font-abel text-[10px] uppercase tracking-widest text-white/30 hover:text-danger hover:cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30 px-2 py-1 rounded"
               >
                 Stop Scanner
               </button>

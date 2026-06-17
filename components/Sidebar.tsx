@@ -17,7 +17,6 @@ const LECTURER_NAV: NavItem[] = [
 
 const STUDENT_NAV: NavItem[] = [
   { label: "Courses", href: "/dashboard" },
-  { label: "Generate QR", href: "/dashboard/generate-qr" },
 ];
 
 export default function Sidebar() {
@@ -47,10 +46,10 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`font-abel text-xs uppercase tracking-widest px-4 py-3 rounded-xl transition-all ${
+              className={`font-abel text-xs uppercase tracking-widest px-4 py-3 rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 ${
                 isActive
                   ? "bg-white/10 text-white"
-                  : "text-accent/70 hover:text-accent hover:bg-white/5"
+                  : "text-accent/70 hover:text-white hover:bg-white/5 hover:translate-x-1"
               }`}
             >
               {item.label}
@@ -70,7 +69,7 @@ export default function Sidebar() {
         </div>
         <button
           onClick={() => handleLogout()}
-          className="w-full font-abel text-[10px] uppercase tracking-widest text-accent/70 hover:text-white border border-white/10 hover:border-white/20 px-4 py-2.5 rounded-xl transition-all"
+          className="w-full font-abel text-[10px] uppercase tracking-widest text-accent/70 hover:text-white border border-white/10 hover:border-white/20 px-4 py-2.5 rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 cursor-pointer"
         >
           Logout
         </button>

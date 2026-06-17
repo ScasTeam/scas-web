@@ -141,6 +141,8 @@ export default function Page() {
                   <SessionList
                     sessions={sessions}
                     isLoading={isLoadingSessions}
+                    isLecturer={isLecturer}
+                    courseId={courseId}
                   />
                 </section>
               )}

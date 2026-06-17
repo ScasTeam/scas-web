@@ -17,6 +17,10 @@ export default function Page() {
     handleVerifyDevice,
     setOtpCode,
     otpError,
+    setEmail,
+    password,
+    setPassword,
+    handleEmailLogin,
   } = useGoogleAuth();
 
   return (
@@ -38,7 +42,15 @@ export default function Page() {
             otpError={otpError}
           />
         ) : (
-          <LoginForm onLogin={handleLogin} isLoading={isLoading} />
+          <LoginForm
+            onGoogleLogin={handleLogin}
+            onEmailLogin={handleEmailLogin}
+            isLoading={isLoading}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+          />
         )}
       </main>
     </GuestGuard>
